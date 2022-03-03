@@ -1,0 +1,91 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Manager-Home</title>
+		<meta name="description" content="table to show all users">
+		<meta name="author" content="Mark Tyers">
+    <link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+    
+		<script type="module" src="main.js"></script>
+    
+    <style>
+       body {
+          background-image: url("https://media.cntraveler.com/photos/5eac691f4623d48988c21830/master/w_4200,h_2803,c_limit/Trunk-Bay-St-John-GettyImages-509468664.jpg");
+          /* Full height */
+          height: 100%;
+
+          /* Center and scale the image nicely */
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+       }
+    </style>
+    
+	</head>
+	<body>
+    
+    <header>
+    <div class="overlay">
+      <h1>Summary</h1>
+<!--         <a  href="secure/add-expenses">All Users</a>  -->
+        <a href="/logout">Log out</a>  
+    <br>
+      </div>
+  </header>
+    
+    
+		
+    
+    
+		{{#if msg}}
+ 			<aside>
+				<p class="msg">{{msg}}</p>
+			</aside>
+		{{/if}}
+		
+     
+
+    
+<div id="main">
+  
+<table class="timecard">
+
+  <caption>Amount paid out : £ {{total_}}</caption>
+	<thead>
+		<tr>
+			<th id="thRegular">First Name</th>
+			<th id="thRegular">Last Name</th>
+      <th id="amount">E-mail</th>
+      <th id="photo">Photo</th>
+<!-- 			<th id="thOvertime">Picture</th> -->
+      
+			
+		</tr>
+	</thead>
+  
+	<tbody>
+      {{#each records}}
+    
+		<tr class="even">
+			<td>{{this.firstName}}</td>
+			<td>{{this.lastName}}</td>
+      <td>{{this.email}}</td>
+      <td><a href="/manager/allExpenses/{{this.id}}">
+      <img src="{{host}}/users/{{this.filename}}" width="200" height="132">
+      </a></td>
+      
+    
+       {{/each}}
+	</tbody>
+  
+	
+</table>
+</div>
+    
+   
+     
+	</body>
+</html>

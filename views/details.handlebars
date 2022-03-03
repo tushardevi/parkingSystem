@@ -1,0 +1,88 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>ExpenseDetails-{{id}}</title>
+		<meta name="description" content="form to add new books">
+		<meta name="author" content="Mark Tyers">
+    <link href="{{host}}/BigImg.css" type="text/css" rel="stylesheet" />
+    <link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+    
+		<script type="module" src="main.js"></script>
+	</head>
+	<body>
+<!--     
+		<header>
+		<h1>details of {{id}}</h1>
+    <a href="/logout">Log out</a>  
+		</header> -->
+    
+     <header>
+    <div class="overlay">
+      <h1>details of {{id}}</h1>
+      <a href="/logout">Log out</a>  
+    <br>
+      </div>
+  </header>
+    
+    
+    
+		{{#if msg}}
+ 			<aside>
+				<p class="msg">{{msg}}</p>
+			</aside>
+		{{/if}}
+		
+     
+<div id="main">
+  
+<table class="timecard">
+  
+	<caption>Expenses</caption>
+	<thead>
+		<tr>
+			<th id="thDay">Date</th>
+			<th id="thRegular">Label</th>
+      <th id="category">Category</th>
+      <th id="descrip">Description</th>
+      <th id="acmount">Amount</th>
+      <th id="receipt">Receipt</th>
+<!-- 			<th id="thOvertime">Picture</th> -->
+      
+			
+		</tr>
+	</thead>
+  
+	<tbody>
+      
+		<tr class="even">
+			<td>{{expense.expense_date}}</td>
+			<td>{{expense.label}}</td>
+			<td>{{expense.category}}</td>
+      <td> {{expense.descrip}}</td>
+      <td>£ {{expense.amount}}</td>
+      
+     <td><a class="lightbox" href="#{{expense.filename}}">
+     <img src="{{host}}/avatars/{{expense.filename}}"/>
+      </a> 
+      
+    <div class="lightbox-target" id="{{expense.filename}}">
+     <img src = "{{host}}/avatars/{{expense.filename}}"/>
+     <a class="lightbox-close" href="/secure/details/{{expense.expense_id}}"></a>
+      </div>
+		</tr>
+       
+    
+	</tbody>
+  
+	
+</table>
+</div>
+    
+    
+   
+    
+	</body>
+</html>

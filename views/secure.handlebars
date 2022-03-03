@@ -1,0 +1,76 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>register</title>
+		<meta name="description" content="Book Car Park">
+		<meta name="author" content="Tushar Devi">
+     <link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+
+    
+		
+    <style>
+         body {
+            background-image: url("https://wallpaperaccess.com/full/255999.jpg");
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+         }
+      </style>
+	</head>
+  
+  
+<body>
+  
+ 
+   <header>
+    <div class="overlay">
+      <h1>Home</h1>
+      <a href="/">Booking History</a>
+      <a href="/">MyDetails</a>
+    <br>
+      </div>
+  </header>
+    
+  
+  
+		{{#if msg}}
+ 			<aside>
+				<p class="msg">{{msg}}</p>
+			</aside>
+		{{/if}}
+
+  <div>
+      <h1>Quick Book</h1>
+      <p> charges for Coventry University car park :
+        £1 = 4 hours, £2 = 4+ hours upto midnight 
+      </p>
+      </div>
+  
+  <main>
+    
+            <form class = "formCenter" form action= "/register" method = "post"  enctype = "multipart/form-data">
+                    <input class = "tbox" type="text" name = "numberPlate" value = "" placeholder = "NumberPlate">
+                    <input class = "tbox" type="number", min = "1", name = "duration" value = "" placeholder = "Duration (hours)">
+                    <input class = "tbox" type="file" name="avatar" accept="image/*">
+                    <input class = "button" type="submit" value="Book Now">
+               
+              
+              
+            </form>
+          
+  
+
+     
+ 
+    
+    
+</main>
+</body>
+</html>

@@ -1,0 +1,74 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>register</title>
+		<meta name="description" content="form to add new expense">
+		<meta name="author" content="Mark Tyers">
+     <link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+
+    
+		
+    <style>
+         body {
+            background-image: url("https://wallpaperaccess.com/full/255999.jpg");
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+         }
+      </style>
+	</head>
+  
+  
+<body>
+  
+ 
+   <header>
+    <div class="overlay">
+      <h1>Create Account</h1>
+      <a href="/">Home</a>
+    <br>
+      </div>
+  </header>
+    
+  
+  
+		{{#if msg}}
+ 			<aside>
+				<p class="msg">{{msg}}</p>
+			</aside>
+		{{/if}}
+  
+
+
+
+  <main>
+    
+            <form class = "formCenter" form action= "/register" method = "post"  enctype = "multipart/form-data">
+                    <input class = "tbox" type="text" name = "username" value = "" placeholder = "Pick Username">
+                    <input class = "tbox" type="text" name = "DriverfirstName" value = "" placeholder = "First Name">
+                    <input class = "tbox" type="text" name = "DriverlastName" value = "" placeholder = "Last Name">
+                    <input class = "tbox" type="email" name="email" value = "" placeholder = "E-mail" >
+                    <input class = "tbox" type="number",min= "11",max = "11", name="phoneNum" value = "" placeholder = "Phone Number" >
+                    <input class = "tbox" type="password" name = "password" value = "" placeholder = "Password">
+
+                    <input class = "button" type="submit" value="Sign up">
+               
+              
+              
+            </form>
+          
+          
+     
+ 
+    
+    
+</main>
+</body>
+</html>

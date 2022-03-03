@@ -1,0 +1,51 @@
+
+
+*/IGRONE 
+npm run linter -- --fix   // TO FIX IN LINTER
+
+
+*/
+
+git status to see which file are commited
+git add . (replace . with file names to add specific files)
+git commit -m (commit the changes -m to leave a message)
+
+git rm -- cached <filename> (to delete files)
+git commit (to comit the changes)
+
+
+branches:
+git branch <name for branch> ( to create a branch)
+
+after a branch is created the user needs to select that branch to commit files
+
+git checkout <name of branch> (to open a branch)
+
+
+to merge a branch back to master branch
+(in master branch) git merge <name of branch>
+
+
+to get specific files from one branch to other:
+
+    1.go to the branch where you want to add the file
+    git branch <name>
+
+    2. then add the file you want to add
+    git checkout <name of other branch> <path of where is the file>
+
+    3. commit the changes and done
+
+
+(HOW TO USE VERSION CONTROL) Version master1
+--------------------------------------------------------
+1.When you have partially finished a stage in project then just commit those files in master and close codio 
+(or u can just close without commiting)
+
+2. when the stage is fully done and you are ready to release that version then first commit all the files in master branch
+then create a new branch. go to that branch and merge all master branch files into new branch
+
+3. come back to master branch and prepare for the next version and do step 1 and 2 for the next version.
+
+Wazzup
+

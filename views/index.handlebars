@@ -1,0 +1,89 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Home Page</title>
+		<meta name="description" content="Home page">
+		<meta name="author" content="Tushar Devi">
+		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<script type="module" src="main.js"></script>
+    
+    <style>
+         body {
+            background-image: url("https://cdn.mos.cms.futurecdn.net/ntFmJUZ8tw3ULD3tkBaAtf.jpg");
+         }
+      </style>
+	</head>
+  
+	<body>
+    
+    
+     
+    <header>
+    <div class="overlay">
+      <h1>Parking4U</h1>
+    <br>
+      </div>
+  </header>
+    
+    
+   
+		{{#if msg}}
+ 			<aside>
+				<p class="msg">{{msg}}</p>
+			</aside>
+		{{/if}}
+    
+	<main> 
+    
+   
+<!--     <p><img src="/avatars/calculator.jpg" alt="calculator" width="500" height="300" class = "center"></p>
+     -->
+	
+   
+    
+    
+    
+    <form class = "formCenter" action="/login" method="post">
+			
+			<input class ="tbox" type="text" name="user" placeholder="Username" value="{{body.user}}" autofocus>
+			<input class ="tbox" type="password" name="pass" placeholder="Password" value="{{body.pass}}">
+
+			<input type="hidden" name="referrer" value="{{referrer}}">
+      
+			<input class = "button" type="submit" value="Sign in">
+      <a href="/register" class="button">Create Account</a>
+      
+		</form>
+    
+    
+    
+    
+    
+    
+		{{#if authorised}}
+			<p><a href="/secure">secure page</a></p>
+		{{/if}}
+    
+     
+		{{#if authorised_M}}
+			<p><a href="/manager">manager page</a></p>
+		{{/if}}
+    
+    
+    
+ 
+    
+  </main>
+    
+    
+
+    
+	</body>
+  
+  
+</html>
+
+

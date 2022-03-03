@@ -1,0 +1,11 @@
+SWW format – all commits should be multi-line with the first line being a summary,
+followed by one or more lines explaining why the 
+changes were made and finally one or more lines explaining what was changed.
+
+
+
+
+
+https://github.coventry.ac.uk/agile/projects/blob/master/22%20Expenses%20Tracker.md
+
+
