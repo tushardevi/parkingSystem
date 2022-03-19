@@ -1,24 +1,18 @@
-CREATE TABLE IF NOT EXISTS expenses(
-  expense_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  -- for stage 1: part 2, now i need 6 attributes
-  expense_date INTEGER,
-  category TEXT NOT NULL,
-  label TEXT NOT NULL,
-  descrip TEXT NOT NULL,
---   img_url TEXT,
-  amount INTEGER NOT NULL,
-  userid INTEGER,
-  FOREIGN KEY(userid) REFERENCES users(id)   -- id from table users is used to retrieve expenses for every user.
-  
-
-);
+-- CREATE TABLE IF NOT EXISTS bookings(
+--   booking_id INTEGER PRIMARY KEY AUTOINCREMENT,
+--   username INTEGER,
+--   carReg TEXT NOT NULL,
+--   startTime TEXT NOT NULL,
+--   endTime TEXT NOT NULL,
+--   FOREIGN KEY(username) REFERENCES DriverDetails(username)
+-- );
 
 
 
 -- random values to test the database
 
 
-INSERT INTO expenses(userid, expense_date,label,amount,descrip,category)
+INSERT INTO bookings('tushardev1','CV31 2DD','',category)
   VALUES(5,CURRENT_TIMESTAMP,"Picnic",120.50,"holiday","luxury");
   
 -- INSERT INTO expenses(userid, expense_date,label,amount,descrip,img_url,category)

@@ -29,67 +29,68 @@ async function checkAuth(ctx, next) {
 router.use(checkAuth)
 
 
-/**
- * Summary :
- * Secure Home page (for members only).
- *
- * @name Secure-Home.
- * @route {GET} /secure
- */
-router.get('/', async ctx => {
 
-	const expenses = await new Expenses(dbName)
-
-	try {
-
-		//retrieving all expenses of a member
-		const records = await expenses.all(ctx.session.username)
-
-		// get the total amount spent
-		const _total = await expenses.getTotal(ctx.session.username)
-
-		ctx.hbs.records = records
-		ctx.hbs.total = _total
-
-		await ctx.render('secure', ctx.hbs)
-
-	} catch(err) {
-		console.log(err.message)
-		ctx.hbs.error = err.message
-		await ctx.render('error', ctx.hbs)
-	}
-
-
+router.get('/',async ctx => {
+	await ctx.render('secure',ctx.hbs)
 })
 
 
-/**
- * Summary :
- * Script to open up a page where the
- * member can see the details of the
- * expense clicked.
- *
- * @name ExpenseDetail.
- * @route {GET} /secure/details/:id
- */
-router.get('/details/:id',async ctx => {
 
-	const expenses = await new Expenses(dbName)
-	try {
-		console.log(`record: ${ctx.params.id}`)
+// router.get('/', async ctx => {
 
-		/*retrieving one expense*/
-		ctx.hbs.expense = await expenses.getExpense(ctx.params.id)
-		ctx.hbs.id = ctx.params.id
+// 	const expenses = await new Expenses(dbName)
 
-		await ctx.render('details',ctx.hbs)
-	} catch(err) {
-		console.log(err.message)
-		ctx.hbs.error = err.message
-		await ctx.render('error', ctx.hbs)
-	}
+// 	try {
 
-})
+// 		//retrieving all expenses of a member
+// 		const records = await expenses.all(ctx.session.username)
+// 		records.dateTime = getDateTime()
+// 		// get the total amount spent
+// 		//const _total = await expenses.getTotal(ctx.session.username)
+// 		ctx.response.body = records
+// 		// ctx.hbs.records = records
+// 		// ctx.hbs.total = _total
+// 		console.log(dateTime)
+
+// 		await ctx.render('secure', ctx.hbs)
+
+// 	} catch(err) {
+// 		console.log(err.message)
+// 		ctx.hbs.error = err.message
+// 		await ctx.render('error', ctx.hbs)
+// 	}
+
+
+// })
+
+
+// /**
+//  * Summary :
+//  * Script to open up a page where the
+//  * member can see the details of the
+//  * expense clicked.
+//  *
+//  * @name ExpenseDetail.
+//  * @route {GET} /secure/details/:id
+//  */
+// router.get('/details/:id',async ctx => {
+
+// 	const expenses = await new Expenses(dbName)
+// 	try {
+// 		console.log(`record: ${ctx.params.id}`)
+
+// 		/*retrieving one expense*/
+// 		ctx.hbs.expense = await expenses.getExpense(ctx.params.id)
+// 		ctx.hbs.id = ctx.params.id
+
+// 		await ctx.render('details',ctx.hbs)
+// 	} catch(err) {
+// 		console.log(err.message)
+// 		ctx.hbs.error = err.message
+// 		await ctx.render('error', ctx.hbs)
+// 	}
+
+// })
 
 
 /**
@@ -112,36 +113,38 @@ router.get('/add-expenses',async ctx => {
  * @name AddExpense Script
  * @route {POST} /add-expenses
  */
-router.post('/add-expenses', async ctx => {
+router.post('/', async ctx => {
 	const expenses = await new Expenses(dbName)
-	try {
 
+	try {
+		console.log("POST / secure")
 		// if user uploaded a file then get additional file info
 		//and check if the format is valid.
-		if(ctx.request.files.avatar.name) {
-			ctx.request.body.filePath = ctx.request.files.avatar.path
-			ctx.request.body.fileName = ctx.request.files.avatar.name
-			ctx.request.body.fileType = ctx.request.files.avatar.type
-			await expenses.checkFileFormat(ctx.request.body)
-		}
-
-		ctx.request.body.userid = ctx.session.userid
-
+		// if(ctx.request.files.avatar.name) {
+		// 	ctx.request.body.filePath = ctx.request.files.avatar.path
+		// 	ctx.request.body.fileName = ctx.request.files.avatar.name
+		// 	ctx.request.body.fileType = ctx.request.files.avatar.type
+		// 	await expenses.checkFileFormat(ctx.request.body)
+		// }
+		
+		//add username to the data so his details could be retrived
+		ctx.request.body.username = ctx.session.username
+		console.log(ctx.request.body)
 		// call the functions in the module
-		await expenses.checkDate(ctx.request.body)
-		await expenses.AddExpense(ctx.request.body)
+		 await expenses.addBooking(ctx.request.body)
+		// await expenses.AddExpense(ctx.request.body)
 
 
-		console.log(ctx.hbs)
+		
 
-		ctx.redirect('/secure?msg=new expense added')
+		ctx.redirect('/secure?msg=booking sucessful')
 
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		ctx.hbs.body = ctx.request.body
 		console.log(err.message)
 		console.log(ctx.hbs)
-		await ctx.render('add-expenses', ctx.hbs)
+		await ctx.render('secure', ctx.hbs)
 	} finally {
 		expenses.close()
 	}

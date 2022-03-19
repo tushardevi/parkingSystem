@@ -49,15 +49,18 @@
   <div>
       <h1>Quick Book</h1>
       <p> charges for Coventry University car park :
-        £1 = 4 hours, £2 = 4+ hours upto midnight 
+        £1 = 4 hours, £2 = 4+ hours upto midnight
+        to add min in time using client side js
+        https://stackoverflow.com/questions/32378590/set-date-input-fields-max-date-to-today
       </p>
       </div>
   
   <main>
     
-            <form class = "formCenter" form action= "/register" method = "post"  enctype = "multipart/form-data">
-                    <input class = "tbox" type="text" name = "numberPlate" value = "" placeholder = "NumberPlate">
-                    <input class = "tbox" type="number", min = "1", name = "duration" value = "" placeholder = "Duration (hours)">
+    
+            <form class = "formCenter" form action= "/secure" method = "post"  enctype = "multipart/form-data">
+                    <input class = "tbox" type="text" name = "carReg" value = "" placeholder = "NumberPlate">
+                    <input class = "tbox" type="time" max="23:59" name = "endTime" value = "" >
                     <input class = "tbox" type="file" name="avatar" accept="image/*">
                     <input class = "button" type="submit" value="Book Now">
                

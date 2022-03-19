@@ -44,6 +44,7 @@ class Expenses {
 		})()
 	}
 
+
 	/**
 	 * Summary:
 	 * Function which gets all the data and saves it
@@ -62,26 +63,64 @@ class Expenses {
 	 * @returns {Boolean} returns true if
 	 * the new expense is sucessfully added.
 	 */
-	async AddExpense(data) {
+	getDateTime(){
+		const d  = new Date()
+		let hours = d.getHours()
+		let mins = d.getMinutes()
+		let secs = d.getSeconds()
+
+		let day = d.getDate()
+		let month = d.getMonth() +1
+		let year = d.getFullYear() 
+
+		let time = hours + ":" +mins + ":" + secs
+		let date = day + "/" + month + "/" + year 
+
+		let dateTime = time+"#"+date
+
+		return dateTime
+}
+
+  appendDate(data){
+		  const d  = new Date()
+		  let day = d.getDate()
+			let month = d.getMonth()+1
+			let year = d.getFullYear() 
+
+			let date = day + "/" + month + "/" + year 
+
+			let endTime = data+"#"+date
+
+		return endTime
+}
+
+
+
+	async addBooking(data) {
 		try{
 			for(const item in data) {
 				if(data[item].length === 0) throw new Error('missing fields')
 			}
 
-			//create new filename for the photo uploaded by the user, so it could be indentified later
-			let filename
-			if(data.fileName) {
-				filename = `${Date.now()}.${mime.extension(data.fileType)}`
-				console.log(filename)
-				await fs.copy(data.filePath, `public/avatars/${filename}`)
-			} else{
-				filename = 'null'
-			}
+			// //create new filename for the photo uploaded by the user, so it could be indentified later
+			// let filename
+			// if(data.fileName) {
+			// 	filename = `${Date.now()}.${mime.extension(data.fileType)}`
+			// 	console.log(filename)
+			// 	await fs.copy(data.filePath, `public/avatars/${filename}`)
+			// } else{
+			// 	filename = 'null'
+			// }
+			
+			
 
-			const sql = `INSERT INTO expenses(expense_date, category, label,descrip,amount,userid,filename,status)\ 
-                   VALUES("${data.date}",\
-                  "${data.category}", "${data.label}",\
-                  "${data.descrip}",${data.amount},"${data.userid}","${filename}",0)`
+			let startTime = this.getDateTime()
+			let endTime = this.appendDate(data.endTime)
+
+			console.log("booking at "+ startTime + " was made by username " + data.username)
+
+			const sql = `INSERT INTO bookings('username', 'carReg', 'startTime','endTime')\ 
+                   VALUES("${data.username}","${data.carReg}", "${startTime}", "${endTime}")`
 			await this.db.run(sql)
 
 		} catch(err) {
