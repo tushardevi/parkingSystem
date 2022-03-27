@@ -120,28 +120,7 @@ router.get('/admin', async ctx=>{
 
 
 router.get('/client', async ctx => {
-    ctx.body = '<html>\
-<head>\
-    <title>Client</title>\
-</head>\
-<body>\
-    <img src="">\
-		<p>hr</p>\
-    <script>\
-				console.log("keyowrd");\
-        const img = document.querySelector("img");\
-				const pa = document.querySelector("p");\
-        const WS_URL = "wss://buffalowatch-laddernorway-3001.codio-box.uk/";\
-        const ws = new WebSocket(WS_URL);\
-        ws.onopen = function() {\
-						console.log(`Connected to ${WS_URL}`)\
-				}; \
-        ws.onmessage = function(message){\
-						img.src = message.data\
-        };\
-    </script>\
-</body>\
-</html>'
+    await ctx.render('takePic')
 });
 
 
@@ -155,7 +134,7 @@ router.get('/client', async ctx => {
 
 
 const WS_PORT = process.env.WS_PORT || 3001;
-const wss = new WebSocketServer({ port: WS_PORT }, () => console.log(`WS server is listening at wss://localhost:${WS_PORT}`));
+const wss = new WebSocketServer({ port: WS_PORT }, () => console.log(`WS server is listening at ws://localhost:${WS_PORT}`));
 
 // array of connected websocket clients
 let connectedClients = [];

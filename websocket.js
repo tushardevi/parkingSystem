@@ -1,5 +1,7 @@
 import {spawn} from 'child_process'
-const child = spawn('python',['./pythonScripts/hello.py']);
+//const child = spawn('python3',['./pythonScripts/scripts/open.py','tushar saying hi']);
+const img = './pythonScripts/scripts/car3.jpg'
+const child = spawn('python3',['./pythonScripts/scripts/open.py',img,'popo','lolo','pipa']);
 
 
 child.stdout.on('data', (data) => {
