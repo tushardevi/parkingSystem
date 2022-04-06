@@ -52,10 +52,10 @@
     
             <form class = "formCenter" form action= "/register" method = "post"  enctype = "multipart/form-data">
                     <input class = "tbox" type="text" name = "username" value = "" placeholder = "Pick Username">
-                    <input class = "tbox" type="text" name = "DriverfirstName" value = "" placeholder = "First Name">
-                    <input class = "tbox" type="text" name = "DriverlastName" value = "" placeholder = "Last Name">
+                    <input class = "tbox" type="text" name = "DriverFirstName" value = "" placeholder = "First Name">
+                    <input class = "tbox" type="text" name = "DriverLastName" value = "" placeholder = "Last Name">
                     <input class = "tbox" type="email" name="email" value = "" placeholder = "E-mail" >
-                    <input class = "tbox" type="number",min= "11",max = "11", name="phoneNum" value = "" placeholder = "Phone Number" >
+                    <input class = "tbox" type="text" minlength="11" maxlength="11" name="phoneNum" value = "" placeholder = "Phone Number" pattern="[0-9]{11}">
                     <input class = "tbox" type="password" name = "password" value = "" placeholder = "Password">
 
                     <input class = "button" type="submit" value="Sign up">

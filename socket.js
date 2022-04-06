@@ -5,7 +5,7 @@ import websockify from 'koa-websocket'
 import { WebSocketServer } from 'ws';
 import views from 'koa-views'
 import bodyParser from 'koa-body'
-
+import { recognition } from './websocket.js';
 const router = new Router()
 router.use(bodyParser({multipart: true}))
 
@@ -122,6 +122,9 @@ router.get('/admin', async ctx=>{
 router.get('/client', async ctx => {
     await ctx.render('takePic')
 });
+router.get('/receptor', async ctx => {
+    await ctx.render('receptor')
+});
 
 
 // router.get('/register', async ctx => {
@@ -143,15 +146,29 @@ wss.on('connection', (ws, req) => {
     console.log('Connected');
     // add new connected client
     connectedClients.push(ws);
+    console.log("clients connected:"+connectedClients.length)
     // listen for messages from the streamer, the clients will not send anything so we don't need to filter
+
     ws.on('message', data => {
         // send the base64 encoded frame to each connected ws
         connectedClients.forEach((ws, i) => {
             if (ws.readyState === ws.OPEN) { // check if it is still connected
-								console.log("message being sent is : " + data)
-                ws.send(data); // send
+                // const file = new FileReader()
+                // file.onload = function(e){
+                //     var arrayBuffer = file.result
+                // }
+                // file.readAsArrayBuffer(data)
+				// console.log(file.result)
+                // console.log("***")
+                console.log("SENDING TO PYTHON:")
+                recognition(data)
+               // console.log("df"+data)
+                ws.send("LOLO"+data);
+                //console.log('this is the data:' + data)
+                //console.log('coming..') // send
             } else { // if it's not connected remove from the array of connected ws
                 connectedClients.splice(i, 1);
+                console.log("a client left, now clients connected:"+connectedClients.length)
             }
         });
     });

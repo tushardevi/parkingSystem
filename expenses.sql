@@ -1,19 +1,19 @@
--- CREATE TABLE IF NOT EXISTS bookings(
---   booking_id INTEGER PRIMARY KEY AUTOINCREMENT,
---   username INTEGER,
---   carReg TEXT NOT NULL,
---   startTime TEXT NOT NULL,
---   endTime TEXT NOT NULL,
---   FOREIGN KEY(username) REFERENCES DriverDetails(username)
--- );
+CREATE TABLE IF NOT EXISTS LiveBookings(
+  booking_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username INTEGER,
+  carReg TEXT NOT NULL,
+  start_dateTime SMALLDATETIME NOT NULL,
+  end_dateTime SMALLDATETIME NOT NULL,
+  FOREIGN KEY(username) REFERENCES DriverDetails(username)
+);
 
 
 
 -- random values to test the database
 
 
-INSERT INTO bookings('tushardev1','CV31 2DD','',category)
-  VALUES(5,CURRENT_TIMESTAMP,"Picnic",120.50,"holiday","luxury");
+-- INSERT INTO bookings('tushardev1','CV31 2DD','',category)
+--   VALUES(5,CURRENT_TIMESTAMP,"Picnic",120.50,"holiday","luxury");
   
 -- INSERT INTO expenses(userid, expense_date,label,amount,descrip,img_url,category)
 --   VALUES(5,CURRENT_TIMESTAMP,"Party",20.50,"Pub night","avatr.png","Luxury");

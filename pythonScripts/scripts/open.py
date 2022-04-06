@@ -1,7 +1,9 @@
+from email.mime import base
 import cv2
 import pytesseract
 import imutils
 import numpy as np
+import base64 
 
 import sys
 def show(img):
@@ -26,13 +28,28 @@ def ResizeWithAspectRatio(image, width=None, height=None, inter=cv2.INTER_AREA):
 
     return cv2.resize(image, dim, interpolation=inter)
 
+
+# decode the base64 into img
+print("IMAGE HEREE")
+#print(sys.argv[1])
+input = sys.argv[1]
+#arr = input.split(';base64,')
+#print(arr[1])
+im_bytes =base64.b64decode(input)
+#to numpy array
+im_arr = np.frombuffer(im_bytes,dtype=np.uint8)
+
+#to img for cv
+img = cv2.imdecode(im_arr,flags=cv2.IMREAD_COLOR)
+print("finished")
+#show(img)
 #Reaad the img
-img = cv2.imread(sys.argv[1])#'./pythonScripts/scripts/car3.jpg'
+#show(img)
 
 # convert to graycale image
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 #show(gray)
-#removes noise 
+# #removes noise 
 gray = cv2.bilateralFilter(gray,11,17,17)
 #show(gray)
 # canny edge dectection
@@ -77,32 +94,39 @@ if (flag == False):
 mask = np.zeros(gray.shape,np.uint8)
 new_image = cv2.drawContours(mask,[contour_with_license_plate],0,500,-1)
 new_image = cv2.bitwise_and(gray,gray,mask=mask)
-#show(new_image)
+
 
 #isolate nunbr pate
 
 (x,y) = np.where(mask==255)
 (x1,y1) = (np.min(x),np.min(y))
 (x2,y2) = (np.max(x),np.max(y))
-cropped_img = gray[x1-30:x2+30,y1-30:y2+30]
-#brigthness
-br_img = cv2.cvtColor(cropped_img,cv2.COLOR_BAYER_BG2RGB)
+cropped_img = gray[x1-10:x2+10,y1-10:y2+10]
+#
 #show(cropped_img)
+#br_img = cv2.cvtColor(cropped_img,cv2.COLOR_BAYER_BG2RGB)
+#show(br_img)
 
 
 
 #use ocr to extract the text
-text = pytesseract.image_to_string(new_image,config='--psm 6')
-print("license plate is : ", text.upper())
+text = pytesseract.image_to_string(cropped_img,config='--psm 6') #changed 1st param from new_image to
+#print("finished... ")
+if(text):
+    print("license plate is : ", text.upper())
+else:
+    print("NO NUMBER PLATE FOUND")
 
-#display it on the picture
 
-#(thresh,blackAndWhiteImage) = cv2.threshold(license_plate,80,255,cv2.THRESH_BINARY)
-#show(blackAndWhiteImage)
+#show(new_image)
+# display it on the picture
 
-    #cv2.waitKeyEx(1)
-#cv2.destroyAllWindows()
-##cv2.waitKey(1)
+# (thresh,blackAndWhiteImage) = cv2.threshold(license_plate,80,255,cv2.THRESH_BINARY)
+# show(blackAndWhiteImage)
+
+#     cv2.waitKeyEx(1)
+# cv2.destroyAllWindows()
+# #cv2.waitKey(1)
 
 # print("version")
 # print(cv2.__version__)

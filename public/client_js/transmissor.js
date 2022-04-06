@@ -1,6 +1,8 @@
 /*
  * Verifry if browser has getUserMedia
  */
+
+
 function hasGetUserMedia() {
     return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia || navigator.msGetUserMedia);
@@ -20,9 +22,11 @@ if (hasGetUserMedia()) {
     console.log("entering if st")
     navigator.getMedia(
         {video: true, audio: false}, 
+
         function (localMediaStream) {
             console.log("setting to video")
-            video.src = window.URL.createObjectURL(localMediaStream);
+           // video.src = window.URL.createObjectURL(localMediaStream);
+             video.srcObject = localMediaStream;
         }, 
         function (e) {
             console.log(e);
@@ -70,15 +74,22 @@ if (hasGetUserMedia()) {
     back.width = cw;
     back.height = ch;
     //draw(video, backcontext, cw, ch);
-    
+    let button = document.getElementById("pic_btn")
+    button.addEventListener('click',function(){
+        draw(video, backcontext, cw, ch);
+
+
+    },false)
+
     function draw(v, bc, w, h) {
         bc.drawImage(v, 0, 0, w, h);
         
         var stringData = back.toDataURL();
-        
+        console.log("sending this stinrg:")
+        console.log(stringData)
         send(stringData);
         
-        setTimeout(function() { draw(v, bc, w, h) });
+       // setTimeout(function() { draw(v, bc, w, h) });
     }
     
 } else {

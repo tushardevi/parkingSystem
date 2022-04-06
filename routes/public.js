@@ -22,6 +22,7 @@ const dbName = 'website.db'
 router.get('/', async ctx => {
 
 	try {
+		console.log(ctx.hbs)
 
 		if(ctx.hbs.authorisedMember) {
 			return ctx.redirect('/secure')
@@ -63,7 +64,7 @@ router.get('/register', async ctx => {
 router.post('/register', async ctx => {
 
 	const account = await new Accounts(dbName)
-	const expenses = await new Expenses(dbName)
+	
 
 	try {
 		// if user uploaded a file then get additional file info

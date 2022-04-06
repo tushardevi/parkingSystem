@@ -34,8 +34,10 @@
       <h1>Home</h1>
       <a href="/">Booking History</a>
       <a href="/">MyDetails</a>
+      <a href="/logout">Log out</a>  
     <br>
       </div>
+      
   </header>
     
   
@@ -48,24 +50,29 @@
 
   <div>
       <h1>Quick Book</h1>
-      <p> charges for Coventry University car park :
-        £1 = 4 hours, £2 = 4+ hours upto midnight
-        to add min in time using client side js
-        https://stackoverflow.com/questions/32378590/set-date-input-fields-max-date-to-today
+      <p> Charges for Coventry University car park :<br>
+        £1 = 4 hours, £2 = 4+ hours upto midnight <br>
+        {{!-- to add min in time using client side js
+        https://stackoverflow.com/questions/32378590/set-date-input-fields-max-date-to-today --}}
       </p>
       </div>
   
   <main>
     
     
-            <form class = "formCenter" form action= "/secure" method = "post"  enctype = "multipart/form-data">
-                    <input class = "tbox" type="text" name = "carReg" value = "" placeholder = "NumberPlate">
-                    <input class = "tbox" type="time" max="23:59" name = "endTime" value = "" >
-                    <input class = "tbox" type="file" name="avatar" accept="image/*">
+            <form class = "formCenter" form action= "/secure" method = "post">
+                    <p></p><label for="number_plate">Car Reg Plate (No Spaces):</label><br></p>
+                    <input class = "tbox" type="text" name = "carReg" maxlength="7" pattern="(?=.*\d).{7,}" placeholder="XXNN-XXX" oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);" required><br>
+                    <p></p><label for="cars">Number of hours:</label><br></p>
+                    <select name="bookingHours">
+                      <option type = "number"value="1">1 Hour</option>
+                      <option type = "number"value="2">2 Hours</option>
+                      <option type = "number"value="3">3 Hours</option>
+                      <option type = "number"value="4">4 Hours</option>
+                      <option type = "text" value="all_day">All Day</option>
+                    </select>
+                    <br><br>
                     <input class = "button" type="submit" value="Book Now">
-               
-              
-              
             </form>
           
   

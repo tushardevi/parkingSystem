@@ -108,12 +108,13 @@ class Accounts {
 
 
 			await this.db.run(sql)
-			console.log("DHAN DONE DONE :")
+			console.log(`New account has been created for person with username:  ${data.username}`)
 
 			return true
 
 		}catch(err) {
-			// 			console.log(err.message)
+			console.log("**Error when registering user in accounts.register class**")
+			console.log(err.message)
 			throw err
 		}
 

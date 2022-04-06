@@ -136,7 +136,7 @@ router.post('/', async ctx => {
 
 
 		
-
+		//once sucefully booked take the user to a live bookings page (home page)
 		ctx.redirect('/secure?msg=booking sucessful')
 
 	} catch(err) {

@@ -2,3 +2,16 @@
 
 2) the header is web responsive. Anallyse that feature and see if i can implement it in my other parts of the website (not so important)
 d
+
+
+connecting cam to ubuntu
+cd c:\Program Files\Oracle\VirtualBox
+VBoxManage list webcams
+VboxManage controlvm "Ubuntu 20.04" webcam attach .1
+
+
+how to upload requiremtns to new environment
+
+
+## sqlite3 commands
+sqlite3 website.db

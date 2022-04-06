@@ -1,18 +1,16 @@
 
-/** @module Expenses */
+/** @module Bookings */
 
 
 import sqlite from 'sqlite-async'
 import fs from 'fs-extra'
 import mime from 'mime-types'
+import { get } from 'http'
 
 /**
    * Summary:
-   * This class is used to add new expenses,
-   * retrieve expenses' details ,
-   * get a total of all expenses,
-   * check for valid Date,file format and finally
-   * approve expenses.
+   * This class is used to add new bookings,
+   * retrieve bookings' details ,
    * ES6 module
    */
 class Expenses {
@@ -25,19 +23,15 @@ class Expenses {
 		return (async() => {
 			this.db = await sqlite.open(dbName)
 			// we need this table to store the expenses of all users
-			const sql = 'CREATE TABLE IF NOT EXISTS expenses\
-				(expense_id INTEGER PRIMARY KEY AUTOINCREMENT,\
-          expense_date INTEGER,\
-          category TEXT,\
-          label TEXT,\
-          descrip TEXT,\
-          amount INTEGER,\
-          userid INTEGER,\
-          filename TEXT,\
-          status INTEGER,\
-          FOREIGN KEY(userid) REFERENCES users(id) \
+			const sql = 'CREATE TABLE IF NOT EXISTS liveBookings(\
+				booking_id INTEGER PRIMARY KEY AUTOINCREMENT,\
+				username INTEGER,\
+				carReg TEXT NOT NULL,\
+				start_dateTime SMALLDATETIME NOT NULL,\
+  				end_dateTime SMALLDATETIME NOT NULL,\
+				FOREIGN KEY(username) REFERENCES DriverDetails(username)\
+			  ); \
         );'
-
 
 			await this.db.run(sql)
 			return this
@@ -63,36 +57,53 @@ class Expenses {
 	 * @returns {Boolean} returns true if
 	 * the new expense is sucessfully added.
 	 */
-	getDateTime(){
-		const d  = new Date()
-		let hours = d.getHours()
-		let mins = d.getMinutes()
-		let secs = d.getSeconds()
+	 addHours(date, hours) {
+		let newDate = new Date(date);
+		newDate.setHours(newDate.getHours() + hours);
+		return newDate;
+	  }
+	getAllDateTime(bookingHours){
+		console.log("BOOKINGS HOURS")
+		console.log(bookingHours)
+		 let current_dateTime  = new Date()
+		// let hours = current_dateTime.getHours()
+		// let mins = current_dateTime.getMinutes()
+		// let secs = current_dateTime.getSeconds()
 
-		let day = d.getDate()
-		let month = d.getMonth() +1
-		let year = d.getFullYear() 
+		// let day = current_dateTime.getDate()
+		// let month = current_dateTime.getMonth() +1
+		// let year = current_dateTime.getFullYear() 
 
-		let time = hours + ":" +mins + ":" + secs
-		let date = day + "/" + month + "/" + year 
+		let ending_dateTime = this.addHours(current_dateTime,parseInt(bookingHours))
+		
+		// let date = year+'-'+month+'-'+day
+		// let time = hours+':'+mins+':'+secs
 
-		let dateTime = time+"#"+date
+		// let starting_dateTime = date+" "+time
+		// console.log("STARTING DATE-TIME")
+		// console.log(starting_dateTime)
 
-		return dateTime
+
+		return {startingTime: current_dateTime,endingTime: ending_dateTime}
+
 }
 
-  appendDate(data){
-		  const d  = new Date()
-		  let day = d.getDate()
-			let month = d.getMonth()+1
-			let year = d.getFullYear() 
+//   appendDate(starting_date){
 
-			let date = day + "/" + month + "/" + year 
 
-			let endTime = data+"#"+date
+// 	    let current_date_time = this.getDateTime
 
-		return endTime
-}
+// 		const d  = new Date()
+// 		let day = d.getDate()
+// 		let month = d.getMonth()+1
+// 		let year = d.getFullYear() 
+
+// 		let date = day + "/" + month + "/" + year 
+
+// 		let endTime = data+"#"+date
+
+// 		return endTime
+// }
 
 
 
@@ -111,17 +122,23 @@ class Expenses {
 			// } else{
 			// 	filename = 'null'
 			// }
+			let alltimes = this.getAllDateTime(data.bookingHours)
+			console.log("PUTTING TO THE DATABASE")
+			console.log(alltimes)
+		
 			
-			
 
-			let startTime = this.getDateTime()
-			let endTime = this.appendDate(data.endTime)
-
-			console.log("booking at "+ startTime + " was made by username " + data.username)
-
-			const sql = `INSERT INTO bookings('username', 'carReg', 'startTime','endTime')\ 
-                   VALUES("${data.username}","${data.carReg}", "${startTime}", "${endTime}")`
+			const sql = `INSERT INTO liveBookings('username', 'carReg', 'start_dateTime','end_dateTime')\ 
+                   VALUES("${data.username}","${data.carReg}", "${alltimes.startingTime}", "${alltimes.endingTime}")`
 			await this.db.run(sql)
+
+			// THIS IS THE CODE TO GET ALL ABOUT TO EXPIRE BOOKINGS IN ORDER
+			// const sql2 = ' SELECT end_dateTime FROM liveBookings ORDER BY end_dateTime ASC;'
+			// const dt = await this.db.all(sql2)
+			// console.log("BEBOOOOOOOOO PEPSI COLA")
+			// console.log(dt)
+			console.log("booking at "+ alltimes.startingTime.getHours() + " was made by username " + data.username)
+			//console.log("booking expires on "+ alltimes.endingTime)
 
 		} catch(err) {
 			throw err

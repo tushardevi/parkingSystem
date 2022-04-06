@@ -6,7 +6,7 @@ import views from 'koa-views'
 import session from 'koa-session'
 
 import router from './routes/routes.js'
-
+//import { recognition } from './websocket.js'
 
 const app = new Koa()
 app.keys = ['darkSecret']
@@ -20,7 +20,7 @@ async function getHandlebarData(ctx, next) {
 		authorisedMember: ctx.session.authorisedMember,
 		authorisedManager: ctx.session.authorisedManager,
 		username: ctx.session.username,
-		host: `https://${ctx.host}`
+		host: `http://${ctx.host}`
 	}
 
 	for(const key in ctx.query) {
@@ -29,7 +29,6 @@ async function getHandlebarData(ctx, next) {
 
 	await next()
 }
-
 
 app.use(server('public'))
 app.use(session(app))
@@ -41,4 +40,4 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 
-/app.listen(port, async() => console.log(`listening on port ${port}`))
+app.listen(port, async() => console.log(`listening on port ${port}`))

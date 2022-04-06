@@ -1,24 +1,43 @@
 import {spawn} from 'child_process'
 //const child = spawn('python3',['./pythonScripts/scripts/open.py','tushar saying hi']);
-const img = './pythonScripts/scripts/car3.jpg'
-const child = spawn('python3',['./pythonScripts/scripts/open.py',img,'popo','lolo','pipa']);
+
+export async function recognition(base64){
+  //const img = './pythonScripts/scripts/car3.jpg'
+  //const child = spawn('python3',['./pythonScripts/scripts/hello.py',img,'popo','lolo','pipa']);
+  let h_base64 = " "+base64
+  //console.log(h_base64)
+  if(h_base64.includes(";base64,")){ //changed this before
+    let img = h_base64.split(";base64,")
+  }
+  
+  //console.log("BOBOBOBOBOBOB lobo")
+ // console.log(img[0])
+  const child = spawn('python3',['./pythonScripts/scripts/open.py']);
+
+  child.stdout.on('data', (data) => {
+    
+   // console.log("SENDING IMG TO OPEN_CV")
+    //console.log("starting open_cv")
 
 
-child.stdout.on('data', (data) => {
-  console.log(`stdout:\n${data}`);
-});
 
-child.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
+    console.log(`stdout:\n${data}`);
+  });
 
-child.on('error', (error) => {
-  console.error(`error: ${error.message}`);
-});
+  child.stderr.on('data', (data) => {
+    console.error(`stderr: WE GOT ERROR`);
+    console.error(`${data}`);
+  });
 
-child.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+  child.on('error', (error) => {
+    console.error(`error: ${error.message}`);
+  });
+
+  child.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+
+}
 
 
 
