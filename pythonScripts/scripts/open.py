@@ -30,11 +30,15 @@ def ResizeWithAspectRatio(image, width=None, height=None, inter=cv2.INTER_AREA):
 
 
 # decode the base64 into img
-print("IMAGE HEREE")
+#print("IMAGE HEREE")
 #print(sys.argv[1])
 input = sys.argv[1]
-#arr = input.split(';base64,')
-#print(arr[1])
+arr = input.split("image/png,")
+input = arr[1]
+#print(input)
+print("IMAGE HEREE")
+#arr = input.split(';image/png,')
+#print(arr)
 im_bytes =base64.b64decode(input)
 #to numpy array
 im_arr = np.frombuffer(im_bytes,dtype=np.uint8)
@@ -101,7 +105,7 @@ new_image = cv2.bitwise_and(gray,gray,mask=mask)
 (x,y) = np.where(mask==255)
 (x1,y1) = (np.min(x),np.min(y))
 (x2,y2) = (np.max(x),np.max(y))
-cropped_img = gray[x1-10:x2+10,y1-10:y2+10]
+cropped_img = gray[x1-2:x2+3,y1-2:y2+3]
 #
 #show(cropped_img)
 #br_img = cv2.cvtColor(cropped_img,cv2.COLOR_BAYER_BG2RGB)

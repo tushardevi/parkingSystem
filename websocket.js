@@ -3,16 +3,19 @@ import {spawn} from 'child_process'
 
 export async function recognition(base64){
   //const img = './pythonScripts/scripts/car3.jpg'
-  //const child = spawn('python3',['./pythonScripts/scripts/hello.py',img,'popo','lolo','pipa']);
+  //const child = spawn('python3',['./pythonScripts/scripts/open.py',img,'popo','lolo','pipa']);
   let h_base64 = " "+base64
   //console.log(h_base64)
+  let img = ""
   if(h_base64.includes(";base64,")){ //changed this before
-    let img = h_base64.split(";base64,")
+      img = h_base64.split(";base64,")
+  }else{
+    img = h_base64
   }
   
   //console.log("BOBOBOBOBOBOB lobo")
  // console.log(img[0])
-  const child = spawn('python3',['./pythonScripts/scripts/open.py']);
+  const child = spawn('python3',['./pythonScripts/scripts/open.py',img]);
 
   child.stdout.on('data', (data) => {
     

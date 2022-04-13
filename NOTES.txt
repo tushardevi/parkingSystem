@@ -15,3 +15,14 @@ how to upload requiremtns to new environment
 
 ## sqlite3 commands
 sqlite3 website.db
+
+
+
+DO LIST:
+* create 4 tables; driverdetails, accounts, livebookings an expirebooings
+* show real time in the homepage of manager of all the livebookings. 
+*create webscoket connection
+and display the table 
+* make sure to only allow one booking per registration plate
+
+

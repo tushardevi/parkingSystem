@@ -33,7 +33,7 @@ async function checkAuth2(ctx, next) {
 }
 
 
-router.use(checkAuth2)
+//router.use(checkAuth2)
 
 
 /**
@@ -138,6 +138,10 @@ router.get('/allExpenses/expense/:exp_id',async ctx => {
 	}
 
 })
+
+router.get('/pic', async ctx => {
+    await ctx.render('takePic')
+});
 
 
 // /**

@@ -1,6 +1,10 @@
 
 <!doctype html>
 
+
+
+
+
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -9,7 +13,8 @@
 		<meta name="author" content="Mark Tyers">
     <link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
     
-		<script type="module" src="main.js"></script>
+		{{!-- <script type="module" src="main.js"></script> --}}
+    <script type="text/javascript" src="../client_js/live_data.js"></script>
     
     <style>
        body {
@@ -29,9 +34,10 @@
     
     <header>
     <div class="overlay">
-      <h1>Summary</h1>
+      <h1>Admin Area</h1>
 <!--         <a  href="secure/add-expenses">All Users</a>  -->
         <a href="/logout">Log out</a>  
+        <a href = "manager/pic" > Check Car</a>
     <br>
       </div>
   </header>
@@ -45,6 +51,8 @@
 				<p class="msg">{{msg}}</p>
 			</aside>
 		{{/if}}
+
+
 		
      
 
