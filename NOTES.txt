@@ -25,4 +25,5 @@ DO LIST:
 and display the table 
 * make sure to only allow one booking per registration plate
 
-
+* display all the livebookings to the page now
+* edit the checkcar page so it looks nice and start maybe comparing number plate to SQL

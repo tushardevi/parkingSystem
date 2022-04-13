@@ -16,26 +16,23 @@ function connect(host) {
     }
 
     ws.onmessage = function (evt) {
-        
-            let data = evt.data
-            console.log(data)
-           
+            setInterval(() =>{
+                let data = evt.data
+                const arr = evt.data
+                
+                try{
+                    console.log(JSON.parse(data))
 
+                }catch(err){
+                    console.log("cannot get live bookings")
+                    console.log(err.message)
+                }
+
+            },2000)
             
+            
+    
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     
     ws.onclose = function () {

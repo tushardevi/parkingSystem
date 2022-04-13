@@ -69,13 +69,12 @@ async function get_bookings(){
 	const sql = `SELECT * FROM liveBookings;`
 
 	const live_bookings = await db.all(sql)
+
 	
-	i = i + 1
-	
-	console.log(`doiing..... ${i}`)
+	//console.log(`doiing..... ${i}`)
 	//console.log(live_bookings)
 
-	return live_bookings
+	return 	JSON.stringify(live_bookings,null,2)
 
 }
 
@@ -85,7 +84,7 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
 
  wss2.on('connection', async function(ws) {
 	connectedClients2.push(ws);
-	const a = await get_bookings()
+	const bookings = await get_bookings()
     console.log('Connected TO REAL TIME DATA SOCKET');
 	//console.log(a)
 	//const data = setInterval(get_bookings,20000)
@@ -99,8 +98,9 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
 			try{
 				console.log("sending real data back to the admin page..")
 				//const a = await get_bookings()
-				console.log(a)
-				ws.send(a)
+				console.log(bookings)
+				
+				ws.send(bookings)
 
 			}catch(e){
 				console.log(e.message)
