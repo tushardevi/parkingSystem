@@ -12,23 +12,28 @@ function connect(host) {
     
     ws.onopen = function () {
         console.log('connected to real data websocket');
-
-    }
-
-    ws.onmessage = function (evt) {
-            setInterval(() =>{
-                let data = evt.data
-                const arr = evt.data
-                
-                try{
-                    console.log(JSON.parse(data))
-
-                }catch(err){
-                    console.log("cannot get live bookings")
-                    console.log(err.message)
-                }
+         setInterval(() =>{
+                ws.send("get")
 
             },2000)
+
+    }
+    
+    ws.onmessage = function (evt) {
+
+            
+            let data = evt.data
+            const arr = evt.data
+            
+            try{
+                console.log(JSON.parse(data))
+
+            }catch(err){
+                console.log("cannot get live bookings")
+                console.log(err.message)
+            }
+
+         
             
             
     
@@ -40,6 +45,8 @@ function connect(host) {
     }
     
     ws.onerror = function(evt) {
+        console.log("ERROR IN LIVE DATA MANAGER")
+        console.log(evt.data)
         console.log('<span style="color: red;">ERROR:</span> ' + evt.data);
     }
 }

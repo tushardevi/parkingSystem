@@ -27,3 +27,7 @@ and display the table
 
 * display all the livebookings to the page now
 * edit the checkcar page so it looks nice and start maybe comparing number plate to SQL
+
+* MAKE admin secure login, add admin column in accounts column, so when someone logins i can check whther is admin or not.
+
+* break down the index.js page and write websockets in seperate file

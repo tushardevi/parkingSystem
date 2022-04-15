@@ -83,8 +83,10 @@ const WS_PORT_2 = process.env.WS_PORT_2 || 3002;
 const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS server is listening at ws://localhost:${WS_PORT_2}`));
 
  wss2.on('connection', async function(ws) {
+	
 	connectedClients2.push(ws);
-	const bookings = await get_bookings()
+
+	
     console.log('Connected TO REAL TIME DATA SOCKET');
 	//console.log(a)
 	//const data = setInterval(get_bookings,20000)
@@ -92,29 +94,40 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
     console.log("admins connected:"+connectedClients2.length)
     // listen for messages from the streamer, the clients will not send anything so we don't need to filter
 
-	
-    connectedClients2.forEach((ws, i) => {
-		if (ws.readyState === ws.OPEN) { // check if it is still connected
-			try{
-				console.log("sending real data back to the admin page..")
-				//const a = await get_bookings()
-				console.log(bookings)
+	ws.on('message', async function(data) {
+		//setInterval(async () =>{
+		const bookings = await get_bookings()
+		connectedClients2.forEach((ws, i) => {
+			if (ws.readyState === ws.OPEN) { // check if it is still connected
+				try{
+					console.log("sending real data back to the admin page..")
+					//const a = await get_bookings()
+					//console.log(bookings)
+					
+					ws.send(bookings)
+
+				}catch(e){
+					console.log(e.message)
+
+				}
 				
-				ws.send(bookings)
-
-			}catch(e){
-				console.log(e.message)
-
-			}
 			
-		
-			//console.log('this is the data:' + data)
-			//console.log('coming..') // send
-		} else { // if it's not connected remove from the array of connected ws
-			connectedClients.splice(i, 1);
-			console.log("a client left, now clients connected:"+connectedClients.length)
-		}
-	});
+				//console.log('this is the data:' + data)
+				//console.log('coming..') // send
+				} 
+				else { // if it's not connected remove from the array of connected ws
+					connectedClients.splice(i, 1);
+					console.log("a client left, now clients connected:"+connectedClients.length)
+				}
+			})
+
+			//}, 2000)
+	})
+
+
+
+	
+	//});
 
 
 
