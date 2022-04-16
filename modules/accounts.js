@@ -24,23 +24,28 @@ class Accounts {
 
 
 
-	constructor(dbName = ':memory:') {
+	constructor(dbName = '../website.db') {
 		return (async() => {
 			this.db = await sqlite.open(dbName)
 
-			const sql = 'CREATE TABLE IF NOT EXISTS DriverDetails\
-				(username TEXT,\
-        DriverFirstName TEXT,\
-        DriverLastName TEXT,\
-        email TEXT,\
-        phoneNum INTEGER,\
-        password TEXT,\
-        admin INTEGER,\
-				PRIMARY KEY (username)\
-        );'
+			const sql = 'CREATE TABLE IF NOT EXISTS driver_details(\
+				driver_id INTEGER PRIMARY KEY AUTOINCREMENT,\
+				firstname TEXT NOT NULL,\
+				lastname TEXT NOT NULL,\
+				email TEXT NOT NULL,\
+				telephone INT,\
+				username VARCHAR(20) NOT NULL,\
+				FOREIGN KEY(username) REFERENCES accounts(username)\
+			  );'
 
+			  const sql2 = 'CREATE TABLE IF NOT EXISTS accounts(\
+				username VARCHAR(20) PRIMARY KEY,\
+				password_ VARCHAR(30) NOT NULL,\
+				admin_ INT NOT NULL\
+			  );'
 
 			await this.db.run(sql)
+			await this.db.run(sql2)
 			return this
 		})()
 	}
@@ -86,25 +91,39 @@ class Accounts {
 			// 	filename = 'null'
 			// }
 
-			// checks if username exists in DB
-			let sql = `SELECT COUNT(username) as records FROM DriverDetails WHERE username="${data.username}";`
+			// checks if username already exists in DB
+			let sql = `SELECT COUNT(username) as records FROM accounts WHERE username="${data.username}";`
 			const username = await this.db.get(sql)
 			if(username.records !== 0) throw new Error(`username "${data.username}" already in use`)
 
-			// checks if e-mail exists in DB
-			sql = `SELECT COUNT(username) as records FROM DriverDetails WHERE email="${data.email}";`
+			// checks if e-mail already exists in DB
+			sql = `SELECT COUNT(email) as records FROM driver_details WHERE email="${data.email}";`
 			const emails = await this.db.get(sql)
 			if(emails.records !== 0) throw new Error(`email address "${data.email}" is in use`)
 
-			//encrypt the password
-	    data.password = await bcrypt.hash(data.password, saltRounds)
+			// checks if phone number already exists in DB
+			sql = `SELECT COUNT(telephone) as records FROM driver_details WHERE telephone="${data.phoneNum}";`
+			const num = await this.db.get(sql)
+			if(num.records !== 0) throw new Error(`Phone number "${data.phoneNum}" is in use`)
 
-			//save all details into users table
+
+			//encrypt the password
+	    	data.password = await bcrypt.hash(data.password, saltRounds)
+			console.log("ENCRYPTED PASSWORD")
+			console.log(data.password)
+
+		
+			//save username and password to accounts table
+			sql = `INSERT INTO accounts(username,password_,admin_)
+    				VALUES("${data.username}","${data.password}",0)`
 			
-			console.log("ADDING NOW TO SQL :")
-			sql = `INSERT INTO DriverDetails(username,DriverFirstName,  DriverLastName ,email,phoneNum,password,admin)
-    VALUES("${data.username}","${data.DriverFirstName}","${data.DriverLastName}","${data.email }",
-          "${data.phoneNum}","${data.password}", 0)`
+			//save all other details to driver_details table
+			await this.db.run(sql)
+
+
+			sql = `INSERT INTO driver_details(firstname,lastname ,email,telephone,username)
+    					VALUES("${data.DriverFirstName}","${data.DriverLastName}","${data.email }",
+          					"${data.phoneNum}","${data.username}")`
 
 
 			await this.db.run(sql)
@@ -137,17 +156,17 @@ class Accounts {
 	async login(username, password) {
 
 		//get
-		let sql = `SELECT count(username) AS count FROM DriverDetails WHERE username="${username}";`
+		let sql = `SELECT count(username) AS count FROM accounts WHERE username="${username}";`
 		const records = await this.db.get(sql)
 		if(!records.count) throw new Error(`username "${username}" not found`)
 
-		sql = `SELECT username,password,admin FROM DriverDetails WHERE username = "${username}";`
+		sql = `SELECT username,password_,admin_ FROM accounts WHERE username = "${username}";`
 		const record = await this.db.get(sql)
-		const valid = await bcrypt.compare(password, record.password)
+		const valid = await bcrypt.compare(password, record.password_)
 		if(valid === false) throw new Error(`invalid password for account "${username}"`)
 
 
-		if(record.admin === -1) {
+		if(record.admin_ === 1) {
 			//manager
 			return {username: record.username, isAdmin: -1}
 		} else{

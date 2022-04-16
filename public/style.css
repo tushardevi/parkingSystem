@@ -650,14 +650,13 @@ dd {
 
 #main {
 	width: 780px;
-	padding: 20px;
+	padding: 2px;
 	margin: auto;
   white-space:pre;
 }
 
 table.timecard {
 	margin: auto;
-	width: 600px;
 	border-collapse: collapse;
 	border: 1px solid #fff; /*for older IE*/
 	border-style: hidden;
@@ -737,4 +736,35 @@ table.timecard tr.even {
 
 
 /**********************************************************************/
+/*DIGITAL CLOCK*/
+.clock {
+  padding: 7px;
+  width: 20%;
+  height: 100px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  background-color: #ffd780;
+  
+}
 
+.time {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.date-time {
+  font-size: 15px;
+  color: rgb(190, 0, 0);
+}
+
+@media screen and (max-width: 768px) {
+  .time {
+    font-size: 50px;
+  }
+}
+/******
