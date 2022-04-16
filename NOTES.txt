@@ -31,3 +31,6 @@ and display the table
 * MAKE admin secure login, add admin column in accounts column, so when someone logins i can check whther is admin or not.
 
 * break down the index.js page and write websockets in seperate file
+
+* to optimise when retirving bookings from server, try to only send bookings once there is a change in the SQL (advance do this when u finished everything else
+talk about it on the report if u dont fininsh it under the evaluation sectrion)

@@ -53,46 +53,49 @@
 		{{/if}}
 
 
-		
      
 
     
-<div id="main">
-  
-<table class="timecard">
+//<div id="main">
 
-  <caption>Amount paid out : £ {{total_}}</caption>
+
+
+<table id = "bookingTable" class="timecard">
+
+  <caption>Live Bookings<caption>
 	<thead>
 		<tr>
-			<th id="thRegular">First Name</th>
-			<th id="thRegular">Last Name</th>
-      <th id="amount">E-mail</th>
-      <th id="photo">Photo</th>
+			<th>Driver</th>
+			<th>Registration Plate</th>
+      <th>Booking Start Time</th>
+      <th>Booking End Time</th>
 <!-- 			<th id="thOvertime">Picture</th> -->
-      
-			
 		</tr>
 	</thead>
   
-	<tbody>
-      {{#each records}}
+    <tbody id = "records">
+
+    </tbody>
+
+ 
+	
+     
     
-		<tr class="even">
-			<td>{{this.firstName}}</td>
-			<td>{{this.lastName}}</td>
-      <td>{{this.email}}</td>
-      <td><a href="/manager/allExpenses/{{this.id}}">
-      <img src="{{host}}/users/{{this.filename}}" width="200" height="132">
-      </a></td>
+		 {{!-- <tr id = "bookingRows" class="even">
+			<td id = "username"></td>
+			<td id = "carReg"></td> --}}
+       {{!-- <td id = "start_dateTime">BEBO</td> 
+      <td id = "end_dateTime"></td> --}}
       
-    
-       {{/each}}
-	</tbody>
+     {{!-- </tr> --}}
+      
+	
+
   
 	
 </table>
 </div>
-    
+    {{!-- <div id = "template"></div> --}}
    
      
 	</body>
