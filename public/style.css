@@ -681,6 +681,13 @@ table.timecard caption {
 }
  */
 
+video.center{
+  /* background-color: #fc0000;
+  font-size: 200px; */
+  margin: 500px;
+ 
+ }
+
 table.timecard thead th {
 	padding: 8px;
 	background-color: #ABE4FF;

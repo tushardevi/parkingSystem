@@ -1,41 +1,43 @@
-{{!-- <html>
-<head>
-    <title>Client</title>
-</head>
-<body>
-    <img src="">
-		<p>hr</p>
-    <script>
-		//console.log("keyowrd");
-       // const img = document.querySelector("img");
-		//const pa = document.querySelector("p");
-       // const WS_URL = "ws:localhost:3001";
-       // const ws = new WebSocket(WS_URL);
-        //ws.onopen = function() {
-					//	console.log(`Connected to ${WS_URL}`)
-				}; 
-        //ws.onmessage = function(message){
-						//img.src = message.data\
-        //};
-    </script>\
-</body>\ --}}
-</html>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <div>
-            <h1>Stream Webcam</h1>
-            <video autoplay id="sourcevid"></video>
-            <canvas id="output"></canvas>
-            <div id="log"></div>
-            <button id="pic_btn">Take Pic</button>
-        </div>
+		<meta charset="utf-8">
+		<title>Scan Car</title>
+		<meta name="description" content="scan cars">
+		<meta name="author" content="Tushar Devi">
+    <link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+
+		{{!-- <script type="module" src="main.js"></script> --}}
+   
+    
+    <style>
+       body {
+          background-image: url("https://media.cntraveler.com/photos/5eac691f4623d48988c21830/master/w_4200,h_2803,c_limit/Trunk-Bay-St-John-GettyImages-509468664.jpg");
         
-        <script type="text/javascript" src="../client_js/transmissor.js"></script>
+       }
+    </style>
+    
+	</head>
+	<body>
+    
+    <header>
+    <div class="overlay">
+      <h1>Check Car</h1>
+<!--         <a  href="secure/add-expenses">All Users</a>  -->
+        <a href="/logout">Log out</a>  
+        <a href = "/" > Live Bookings</a>
+    <br>
+      </div>
+  </header>
+    <body>
+        <div >
+            <video style = "margin: 2px 300px 40px 600px;" autoplay id="sourcevid"></video>
+            <canvasid="output"></canvas>
+            <div id="log"></div>
+            <button style = "margin: 2px 300px 40px 820px;" class = "button" id="pic_btn">Take Picture</button>
+        </div>
+         <script type="text/javascript" src="../client_js/send_image.js"></script>
     </body>
 </html>
 

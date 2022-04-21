@@ -1,5 +1,7 @@
 import {spawn} from 'child_process'
+
 //const child = spawn('python3',['./pythonScripts/scripts/open.py','tushar saying hi']);
+export let regPlate = ""
 
 export async function recognition(base64){
   //const img = './pythonScripts/scripts/car3.jpg'
@@ -17,14 +19,16 @@ export async function recognition(base64){
  // console.log(img[0])
   const child = spawn('python3',['./pythonScripts/scripts/open.py',img]);
 
-  child.stdout.on('data', (data) => {
+  child.stdout.on('data', function(data) {
     
-   // console.log("SENDING IMG TO OPEN_CV")
+    //console.log("RECEIVING RESPONSE FROM CHILD PROCESS")
     //console.log("starting open_cv")
 
-
-
-    console.log(`stdout:\n${data}`);
+    
+    const res = data.toString()
+    
+    regPlate = res
+    //console.log(a)
   });
 
   child.stderr.on('data', (data) => {

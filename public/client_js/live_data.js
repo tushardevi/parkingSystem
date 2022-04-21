@@ -92,7 +92,7 @@ function connect(host) {
                   // let node = body.cloneNode(true)
                    //NEW object (booking)
                    console.log(item.carReg)
-                   console.log(item.username)
+                   console.log(item.driver_id)
                    console.log(item.start_dateTime)
                    console.log(item.end_dateTime)
                    console.log("********************")
@@ -100,7 +100,7 @@ function connect(host) {
 
                    //driver name
                    let name  = document.createElement("td")
-                   name.innerText  = item.username
+                   name.innerText  = item.driver_id
 
                    //car registation plate
                    let carReg = document.createElement("td")

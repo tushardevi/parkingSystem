@@ -19,19 +19,18 @@ class Expenses {
    * Create an expense object
    * @param {String} [dbName=":memory:"] - The name of the database file to use.
    */
-	constructor(dbName = ':memory:') {
+	constructor(dbName = '../website.db:') {
 		return (async() => {
 			this.db = await sqlite.open(dbName)
 			// we need this table to store the expenses of all users
-			const sql = 'CREATE TABLE IF NOT EXISTS liveBookings(\
+			const sql = 'CREATE TABLE IF NOT EXISTS live_bookings(\
 				booking_id INTEGER PRIMARY KEY AUTOINCREMENT,\
-				username INTEGER,\
+				driver_id INTEGER,\
 				carReg TEXT NOT NULL,\
 				start_dateTime SMALLDATETIME NOT NULL,\
-  				end_dateTime SMALLDATETIME NOT NULL,\
-				FOREIGN KEY(username) REFERENCES DriverDetails(username)\
-			  ); \
-        );'
+				end_dateTime SMALLDATETIME NOT NULL,\
+				FOREIGN KEY(driver_id) REFERENCES driver_details(driver_id)\
+			  );'
 
 			await this.db.run(sql)
 			return this
@@ -126,10 +125,16 @@ class Expenses {
 			console.log("PUTTING TO THE DATABASE")
 			console.log(alltimes)
 		
-			
+		
+			 let sql = `SELECT driver_id FROM driver_details WHERE username = "${data.username}"`
+			 const res = await this.db.all(sql)
+			 console.log("THIS IS THE DRIVER ID")
+			 console.log(JSON.stringify(res))
+			 
 
-			const sql = `INSERT INTO liveBookings('username', 'carReg', 'start_dateTime','end_dateTime')\ 
-                   VALUES("${data.username}","${data.carReg}", "${alltimes.startingTime}", "${alltimes.endingTime}")`
+
+			 sql = `INSERT INTO live_bookings('driver_id', 'carReg', 'start_dateTime','end_dateTime')\ 
+                   VALUES("${res[0].driver_id}","${data.carReg}", "${alltimes.startingTime}", "${alltimes.endingTime}")`
 			await this.db.run(sql)
 
 			// THIS IS THE CODE TO GET ALL ABOUT TO EXPIRE BOOKINGS IN ORDER

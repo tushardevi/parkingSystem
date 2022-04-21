@@ -19,21 +19,30 @@ sqlite3 website.db
 
 
 DO LIST:
-* create 4 tables; driver_details, accounts, live_bookings an archive_bookings
 
-and display the table 
-* make sure to only allow one booking per registration plate (validate )
 
-* display all the livebookings to the page now
 * edit the checkcar page so it looks nice and start maybe comparing number plate to SQL
 
-* MAKE admin secure login, add admin column in accounts column, so when someone logins i can check whther is admin or not.
 
 * break down the index.js page and write websockets in seperate file
 
 * to optimise when retirving bookings from server, try to only send bookings once there is a change in the SQL (advance do this when u finished everything else
 talk about it on the report if u dont fininsh it under the evaluation sectrion)
 
+* IMPLMENT THE PAY API
+* implment the SMS sending 
+* use node cron scheduler rather th
+* rename all moules and files 
 #DO TESTING AND RECORD UR RESULTS IN THE REPORT AT THE SAME time
 * VALIDATION FOR registration
+*talk about the fficienty performance between monitor ookings
+* make sure to only allow one booking per registration plate (validate )
+** NO NEED TO DDO ALL DAY PARKING 
 *VA;IDATION WHEN BOOKING CAR BOOKING, REG PLATE CANT BE THE SAME
+* CREATE JS OCUMNETATION
+
+
+
+* ADD FUNCTION SO WHEN NUMBER PLATE IS EXTRACTE U COMPARE THE STRING TO THE DATABASE.
+
+## TESTING

@@ -7,6 +7,7 @@ import { WebSocketServer } from 'ws';
 import views from 'koa-views'
 import bodyParser from 'koa-body'
 import { recognition } from './websocket.js';
+import{regPlate} from './websocket.js';
 //const router = new Router()
 router.use(bodyParser({multipart: true}))
 
@@ -32,8 +33,9 @@ wss.on('connection', (ws, req) => {
     console.log("clients connected:"+connectedClients.length)
     // listen for messages from the streamer, the clients will not send anything so we don't need to filter
 
-    ws.on('message', data => {
+    ws.on('message', async function(data) {
         // send the base64 encoded frame to each connected ws
+		recognition(data)
         connectedClients.forEach((ws, i) => {
             if (ws.readyState === ws.OPEN) { // check if it is still connected
                 // const file = new FileReader()
@@ -43,10 +45,19 @@ wss.on('connection', (ws, req) => {
                 // file.readAsArrayBuffer(data)
 				// console.log(file.result)
                 // console.log("***")
-                console.log("Processing image...")
-                recognition(data)
-               // console.log("df"+data)
-                ws.send("LOLO"+data);
+				try{
+					//console.log("Processing image...")
+					
+				   // console.log("df"+data)
+				   console.log("SERVER SIDE REG PLATE XXX")
+				   console.log(regPlate)
+					ws.send("LOLO"+data);
+
+				}catch(e){
+					console.log(e)
+
+				}
+               
                 //console.log('this is the data:' + data)
                 //console.log('coming..') // send
             } else { // if it's not connected remove from the array of connected ws
@@ -66,7 +77,7 @@ let i = 1
 async function get_bookings(){
 	const dbName = "website.db"
 	const db = await sqlite.open(dbName)
-	const sql = `SELECT * FROM liveBookings;`
+	const sql = `SELECT * FROM live_bookings;`
 
 	const live_bookings = await db.all(sql)
 

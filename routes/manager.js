@@ -2,7 +2,6 @@
 import Router from 'koa-router'
 
 const router = new Router({ prefix: '/manager'})
-import websockify from 'koa-websocket'
 
 
 import Email from '../modules/sendEmail.js'
