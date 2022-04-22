@@ -6,6 +6,8 @@ import sqlite from 'sqlite-async'
 import fs from 'fs-extra'
 import mime from 'mime-types'
 import { get } from 'http'
+import Email from '../modules/sendEmail.js'
+
 
 /**
    * Summary:
@@ -105,26 +107,38 @@ class Expenses {
 // }
 
 
+	async check_carReg(carReg){
+		try{
+		let sql = `SELECT count(carReg) AS count FROM live_bookings WHERE carReg="${carReg}";`
+		const records = await this.db.get(sql)
+		if(records.count) return false 
+		return true
+		}catch(err){
+			console.log("error when checking car reg")
+			console.log(err)
 
+		}
+	}
+	async get_email(driverID){
+		let sql = `SELECT email FROM driver_details WHERE driver_id = ${driverID}`
+		const record = await this.db.all(sql)
+		console.log("this is the email of user")
+		console.log(record[0].email)
+		return record[0].email
+	}
 	async addBooking(data) {
 		try{
 			for(const item in data) {
 				if(data[item].length === 0) throw new Error('missing fields')
 			}
+			const flag = await this.check_carReg(data.carReg)
+			if(flag== false) throw new Error(`Registation plate : "${data.carReg}" already has an active booking`)
 
-			// //create new filename for the photo uploaded by the user, so it could be indentified later
-			// let filename
-			// if(data.fileName) {
-			// 	filename = `${Date.now()}.${mime.extension(data.fileType)}`
-			// 	console.log(filename)
-			// 	await fs.copy(data.filePath, `public/avatars/${filename}`)
-			// } else{
-			// 	filename = 'null'
-			// }
 			let alltimes = this.getAllDateTime(data.bookingHours)
 			console.log("PUTTING TO THE DATABASE")
 			console.log(alltimes)
 		
+			 // getting the username driver_id so it could be added in the bookings table
 		
 			 let sql = `SELECT driver_id FROM driver_details WHERE username = "${data.username}"`
 			 const res = await this.db.all(sql)
@@ -135,13 +149,13 @@ class Expenses {
 
 			 sql = `INSERT INTO live_bookings('driver_id', 'carReg', 'start_dateTime','end_dateTime')\ 
                    VALUES("${res[0].driver_id}","${data.carReg}", "${alltimes.startingTime}", "${alltimes.endingTime}")`
-			await this.db.run(sql)
+			
 
-			// THIS IS THE CODE TO GET ALL ABOUT TO EXPIRE BOOKINGS IN ORDER
-			// const sql2 = ' SELECT end_dateTime FROM liveBookings ORDER BY end_dateTime ASC;'
-			// const dt = await this.db.all(sql2)
-			// console.log("BEBOOOOOOOOO PEPSI COLA")
-			// console.log(dt)
+		
+			const user_email = await this.get_email(res[0].driver_id)
+			const obj = new Email()
+			obj.sendEmail(user_email,alltimes,data)
+			await this.db.run(sql)
 			console.log("booking at "+ alltimes.startingTime.getHours() + " was made by username " + data.username)
 			//console.log("booking expires on "+ alltimes.endingTime)
 
@@ -269,134 +283,7 @@ class Expenses {
 	}
 
 
-	/**
-	 * Summary:
-	 * Function to get the total spent on expenses.
-	 *
-	 * Parameters:
-	 * @param {Integer} userid User ID.
-	 *
-	 * @returns {Integer} returns total.
-	 */
-	async getTotal(userid) {
-		let total = 0 // variable to store the total
-
-		// select the amount spent in ALL expenses by the user
-		try{
-			const sql = `SELECT amount FROM expenses\
-                  WHERE userid = "${userid}" AND status = 0;`
-
-			const expenses = await this.db.all(sql)
-
-
-			// add all expenses one by one
-			for(const i in expenses) {
-				total = total + expenses[i]['amount']
-			}
-
-		} catch(err) {
-			// 			console.log(err.message)
-		}
-
-
-		return total
-	}
-
-
-	/**
-	 * Summary:
-	 * Function which checks the file format when a user tries to upload a file.
-	 *
-	 * Parameters:
-	 * @params {Struct} fileInfo All the file details like
-   * file path, file name and file type.
-   *
-   * @params {String} fileName Name of file.
-   * @params{String} filePath Path address.
-   * @params {String} fileType Type of file.
-   *
-   *
-   * @returns {Boolean} returns true if file type is valid
-	 */
-
-	async checkFileFormat(fileInfo) {
-
-
-		try{
-			const type = fileInfo.fileType
-			const includes = type.includes('image')
-			if(!includes) throw new Error('Invalid file format')
-
-		}catch(err) {
-			// 			console.log(err)
-			throw err
-		}
-
-
-		return true
-	}
-
-	/**
-	 * Summary:
-	 * Function which approves
-	 * and hides expenses once they are approved.
-	 *
-	 * Parameters:
-	 * @params {Interger} ExpenseID Expense ID.
-	 *
-	 * @returns {Boolean} true if the expense is
-	 * successfully approved,
-	 * otherwise throws an error.
-	 */
-
-	async approve(expenseID) {
-		try{
-			const sql = `UPDATE expenses\
-                  SET status = 1 WHERE expense_id = ${expenseID};`
-			await this.db.run(sql)
-
-			return true
-		}catch(err) {
-			// 			console.log(err.message)
-			throw err
-		}
-
-	}
-
-
-  	/**
-	 * Summary:
-	 * Function to get the total of all approved expenses.
-	 *
-	 * Parameters:
-	 * @param {Integer} userid the User ID.
-	 *
-	 * @returns {Integer} returns the total of all approved expenses.
-	 */
-	async getApprovedTotal() {
-		let total = 0
-
-		// select the amount spent in ALL expenses by the user
-		try{
-			const sql = 'SELECT amount FROM expenses\
-                  WHERE status = 1;'
-
-			const expenses = await this.db.all(sql)
-
-
-			// add all expenses one by one
-			for(const i in expenses) {
-				total = total + expenses[i]['amount']
-			}
-
-		} catch(err) {
-			// 			console.log(err.message)
-		}
-
-
-		return total
-	}
-
+	
 
 }
 

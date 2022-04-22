@@ -31,7 +31,7 @@
  
    <header>
     <div class="overlay">
-      <h1>Home</h1>
+      <h1>Book Parking</h1>
       <a href="/">Booking History</a>
       <a href="/">MyDetails</a>
       <a href="/logout">Log out</a>  
@@ -48,22 +48,15 @@
 			</aside>
 		{{/if}}
 
-  <div>
-      <h1>Quick Book</h1>
-      <p> Charges for Coventry University car park :<br>
-        £1 = 4 hours, £2 = 4+ hours upto midnight <br>
-        {{!-- to add min in time using client side js
-        https://stackoverflow.com/questions/32378590/set-date-input-fields-max-date-to-today --}}
-      </p>
-      </div>
+
   
   <main>
     
     
             <form class = "formCenter" form action= "/secure" method = "post">
-                    <p></p><label for="number_plate">Car Reg Plate (No Spaces):</label><br></p>
+                    <h2 style = "margin: 10px 200px 20px 600px">Registration Plate:</h2>
                     <input class = "tbox" type="text" name = "carReg" maxlength="7" pattern="(?=.*\d).{7,}" placeholder="XXNN-XXX" oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);" required><br>
-                    <p></p><label for="cars">Number of hours:</label><br></p>
+                    <h2 style = "margin: 10px 200px 20px 600px">Number of Hours:</h2>
                     <select name="bookingHours">
                       <option type = "number"value="1">1 Hour</option>
                       <option type = "number"value="2">2 Hours</option>
