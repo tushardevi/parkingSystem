@@ -6,19 +6,25 @@ import websockify from 'koa-websocket'
 import { WebSocketServer } from 'ws';
 import views from 'koa-views'
 import bodyParser from 'koa-body'
-import { recognition } from './websocket.js';
-import{regPlate} from './websocket.js';
+
+// imported functions to scan car and get numbe rplate as text using image recognition
+import { recognition } from './scanCar.js';
+import{regPlate} from './scanCar.js';
 //const router = new Router()
 router.use(bodyParser({multipart: true}))
 
-import sqlite from 'sqlite-async'
-
+//import sqlite from 'sqlite-async'
+import Bookings from './modules/bookings.js'
 
 import router from './routes/routes.js'
 //import { recognition } from './websocket.js'
 
 const app = new Koa()
 app.keys = ['darkSecret']
+
+
+//****************************************** */
+	//SERVER FOR SENDING IMAGES
 //****************************************** */
 const WS_PORT = process.env.WS_PORT || 3001;
 const wss = new WebSocketServer({ port: WS_PORT }, () => console.log(`WS server is listening at ws://localhost:${WS_PORT}`));
@@ -38,17 +44,9 @@ wss.on('connection', (ws, req) => {
 		recognition(data)
         connectedClients.forEach((ws, i) => {
             if (ws.readyState === ws.OPEN) { // check if it is still connected
-                // const file = new FileReader()
-                // file.onload = function(e){
-                //     var arrayBuffer = file.result
-                // }
-                // file.readAsArrayBuffer(data)
-				// console.log(file.result)
-                // console.log("***")
+               
 				try{
-					//console.log("Processing image...")
-					
-				   // console.log("df"+data)
+				  // await recognition(data)
 				   console.log("SERVER SIDE REG PLATE XXX")
 				   console.log(regPlate)
 					ws.send("LOLO"+data);
@@ -58,8 +56,6 @@ wss.on('connection', (ws, req) => {
 
 				}
                
-                //console.log('this is the data:' + data)
-                //console.log('coming..') // send
             } else { // if it's not connected remove from the array of connected ws
                 connectedClients.splice(i, 1);
                 console.log("a client left, now clients connected:"+connectedClients.length)
@@ -68,26 +64,8 @@ wss.on('connection', (ws, req) => {
     });
 });
 //****************************************** */
-	//FOR REAL TIME DATA
+	//SERVER TO SHOW REAL TIME DATA 
 //****************************************** */
-
-let i = 1
-
-
-async function get_bookings(){
-	const dbName = "website.db"
-	const db = await sqlite.open(dbName)
-	const sql = `SELECT * FROM live_bookings;`
-
-	const live_bookings = await db.all(sql)
-
-	
-	//console.log(`doiing..... ${i}`)
-	//console.log(live_bookings)
-
-	return 	JSON.stringify(live_bookings,null,2)
-
-}
 
 let connectedClients2 = [];
 const WS_PORT_2 = process.env.WS_PORT_2 || 3002;
@@ -107,24 +85,21 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
 
 	ws.on('message', async function(data) {
 		//setInterval(async () =>{
-		const bookings = await get_bookings()
+		const dbName = "website.db"
+		const obj = await new Bookings(dbName)
+		const bookings = await obj.get_bookings()
 		connectedClients2.forEach((ws, i) => {
 			if (ws.readyState === ws.OPEN) { // check if it is still connected
 				try{
-					console.log("sending real data back to the admin page..")
-					//const a = await get_bookings()
-					//console.log(bookings)
+					//console.log("sending real data back to the admin page..")
 					
 					ws.send(bookings)
 
 				}catch(e){
 					console.log(e.message)
 
-				}
+				  }
 				
-			
-				//console.log('this is the data:' + data)
-				//console.log('coming..') // send
 				} 
 				else { // if it's not connected remove from the array of connected ws
 					connectedClients.splice(i, 1);
@@ -132,32 +107,16 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
 				}
 			})
 
-			//}, 2000)
+			
 	})
 
 
-
-	
-	//});
-
-
-
-
-
-	//get_bookings()
-
-	// opening database swlite
-	
-    // add new connected client
-    //connectedClients.push(ws);
-    //console.log("clients connected:"+connectedClients.length)
-    // listen for messages from the streamer, the clients will not send anything so we don't need to filter
-
-	// there is no message sent to the server, only message given (the live table)
 });
 
 
 //****************************************** */
+
+
 const defaultPort = 8080
 const port = process.env.PORT || defaultPort
 

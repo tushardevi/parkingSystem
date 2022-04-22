@@ -7,7 +7,6 @@ const router = new Router()
 router.use(bodyParser({multipart: true}))
 
 import Accounts from '../modules/accounts.js'
-import Expenses from '../modules/expenses.js'
 const dbName = 'website.db'
 
 
@@ -28,7 +27,7 @@ router.get('/', async ctx => {
 			return ctx.redirect('/secure')
 		}
 		if(ctx.hbs.authorisedManager) {
-			return ctx.redirect('/manager')
+			return ctx.redirect('/admin')
 		}
 
 
@@ -67,15 +66,7 @@ router.post('/register', async ctx => {
 	
 
 	try {
-		// if user uploaded a file then get additional file info
-		//and check if the format is valid.
-		// if(ctx.request.files.avatar.name) {
-		// 	ctx.request.body.filePath = ctx.request.files.avatar.path
-		// 	ctx.request.body.fileName = ctx.request.files.avatar.name
-		// 	ctx.request.body.fileType = ctx.request.files.avatar.type
-		// 	await expenses.checkFileFormat(ctx.request.body)
-		// }
-
+		
 
 		// register the member.
 		console.log("driver details here: ")
@@ -130,7 +121,7 @@ router.post('/login', async ctx => {
 		if(info['isAdmin'] < 0 ) {
 			ctx.session.authorisedMember = null
 			ctx.session.authorisedManager = true
-			referrer = body.referrer || '/manager'
+			referrer = body.referrer || '/admin'
 
 		}
 

@@ -1,46 +1,100 @@
-<html>
-<head>
-    <title>Streamer</title>
-</head>
-<body>
-       <button>Start camera</button>
-           <br/>
-           <video></video>
-           <script>
-                function getFrame() {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    canvas.getContext("2d").drawImage(video, 0, 0);
-                    const data = canvas.toDataURL("image/png");
-                    return data;
-                    
-                }
-				        var video = document.querySelector("video");
-                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                     console.log("getUserMedia() not supported.");
-                }
-                var btn = document.querySelector("button");
-               
-            btn.onclick=function(e) {
-						let constraints = { video: { facingMode: "environment" } };
-            navigator.mediaDevices.getUserMedia(constraints)
-                         .then(function(stream) {
-                             
-                             if ("srcObject" in video) {
-                                 video.srcObject = stream;
-                             } else {
-                                 video.src = window.URL.createObjectURL(stream);
-                             }
-                             video.onloadedmetadata = function(e) {
-									              video.play();
-                             }
-														 
-                        })
-                          .catch(function(err) {
-                               console.log(err.name + ": " + err.message);
-                           });
-                };
-           </script> 
-     </body>
+
+<!doctype html>
+
+
+
+
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Admin</title>
+		<meta name="description" content="show all bookings in real time">
+		<meta name="author" content="Tushar Devi">
+    <link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+    
+		{{!-- <script type="module" src="main.js"></script> --}}
+    <script type="text/javascript" src="../client_js/live_data.js"></script>
+    
+    <style>
+       body {
+          background-image: url("https://media.cntraveler.com/photos/5eac691f4623d48988c21830/master/w_4200,h_2803,c_limit/Trunk-Bay-St-John-GettyImages-509468664.jpg");
+          /* Full height */
+          height: 100%;
+
+          /* Center and scale the image nicely */
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+       }
+    </style>
+    
+	</head>
+	<body>
+    
+    <header>
+    <div class="overlay">
+      <h1>Admin Area</h1>
+<!--         <a  href="secure/add-expenses">All Users</a>  -->
+        <a href="/logout">Log out</a>  
+        <a href = "admin/scanCar" > Check Car</a>
+    <br>
+      </div>
+  </header>
+    
+    
+		
+    
+    <div class = "clock"  >
+      <div class = "time"></div>
+      <div class = "date-time"></div>
+    </div>
+
+
+     
+
+    
+//<div id="main">
+
+
+
+<table  class="timecard" id = "bookingTable">
+
+  <caption>Live Bookings<caption>
+	<thead>
+		<tr>
+			<th>DriverID</th>
+			<th>Registration Plate</th>
+      <th>Booking Start Time</th>
+      <th>Booking End Time</th>
+<!-- 			<th id="thOvertime">Picture</th> -->
+		</tr>
+	</thead>
+  
+    <tbody id = "records">
+
+    </tbody>
+
+ 
+	
+     
+    
+		 {{!-- <tr id = "bookingRows" class="even">
+			<td id = "username"></td>
+			<td id = "carReg"></td> --}}
+       {{!-- <td id = "start_dateTime">BEBO</td> 
+      <td id = "end_dateTime"></td> --}}
+      
+     {{!-- </tr> --}}
+      
+	
+
+  
+	
+</table>
+</div>
+    {{!-- <div id = "template"></div> --}}
+   
+     
+	</body>
 </html>

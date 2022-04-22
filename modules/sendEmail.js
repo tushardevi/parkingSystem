@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer'
    * Summary:
    * This class is used to send emails
    * to members
-   * once an expense gets approved
+   * once they book a parking
    * ES6 module
    */
 
@@ -22,8 +22,10 @@ class Email {
 	 *
 	 *
 	 * @param {String} receiver The email address of the person receiving the email
-   * @param {Integer} ExpenseID Expense ID needed so it can be used in the body of the email
-	 * @returns {Boolean} returns true
+   * @param {Object}times the ending and starting times of the booking
+   * @param {Object}booking the booking details
+   * 
+	 * @returns {Object} returns true 
 	 * when an email is sucessfully sent.
 	 */
 	async sendEmail(receiver,times,booking) {
@@ -36,16 +38,33 @@ class Email {
 			}
 
 		})
-		
-		const msg = `
-		Your booking has been confirmed! \n  details of your booking: \n starting time : ${times.startingTime} \n
-		ending time : ${times.endingTime} \n Registration plate : ${booking.carReg}`
+		const html = `<body>
+		<h1> Your booking has been confirmed.</h1>
+        <section>
+            <h2>Starting Time:</h2>
+             
+<p style = "font-size: 22px;">${times.startingTime}</p>
+ 
+        </section>
+
+        <section>
+            <h2>Ending Time:</h2>
+             
+<p style = "font-size: 22px;">${times.endingTime}</p>
+ 
+        </section>
+        <section>
+            <h2>Registration Plate:</h2>
+        
+<p style = "font-size: 22px;">${booking.carReg}</p>
+        </section>
+    </body>`
 	
 		const mailOtions = {
 			from: 'javascript3211@gmail.com',
-			to: 'javascript3211@gmail.com',
+			to: receiver,
 			subject: 'Parking Booked ',
-			text: msg
+			html: html
 		}
 
 		transporter.sendMail(mailOtions, async(err,data) => {
