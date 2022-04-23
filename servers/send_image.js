@@ -5,7 +5,7 @@ import{regPlate} from '../scanCar.js';
 
 
 //****************************************** */
-	//SERVER FOR SENDING IMAGES
+	//WEB SOCKET SERVER FOR SENDING IMAGES
 //****************************************** */
 const WS_PORT = process.env.WS_PORT || 3001;
 const wss = new WebSocketServer({ port: WS_PORT }, () => console.log(`WS server is listening at ws://localhost:${WS_PORT}`));
@@ -14,7 +14,7 @@ const wss = new WebSocketServer({ port: WS_PORT }, () => console.log(`WS server 
 let connectedClients = [];
 
 wss.on('connection', (ws, req) => {
-    console.log('Connected');
+    console.log('Connected TO SCAN CAR SOCKET');
     // add new connected client
     connectedClients.push(ws);
     console.log("clients connected:"+connectedClients.length)

@@ -19,8 +19,8 @@ sqlite3 website.db
 
 
 DO LIST:
+# make more method inside the monitorbokings class, one for to append to archivce table other to delete, other to send email to user asoon booking expires
 
-* when removing expired bookings, also moved them to different table archived_bookings
 * to optimise when retirving bookings from server, try to only send bookings once there is a change in the SQL (advance do this when u finished everything else
 talk about it on the report if u dont fininsh it under the evaluation sectrion)
 

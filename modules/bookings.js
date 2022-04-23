@@ -38,11 +38,11 @@ class Bookings {
 
 	//function to get all the bookings
 	async get_bookings() {
-		const dbName = "website.db"
-		const db = await sqlite.open(dbName)
+		//const dbName = "website.db"
+		//const db = await sqlite.open(dbName)
 		const sql = `SELECT * FROM live_bookings ORDER BY end_dateTime ASC; `
 	
-		const live_bookings = await db.all(sql)
+		const live_bookings = await this.db.all(sql)
 
 	
 		return 	JSON.stringify(live_bookings,null,2)
@@ -54,8 +54,8 @@ class Bookings {
 	// function to add the hours with current date time
 	 addHours(date, hours) {
 		let newDate = new Date(date);
-	    newDate.setHours(newDate.getHours() + hours);
-		//newDate.setMinutes(newDate.getMinutes() + 10);
+	    //newDate.setHours(newDate.getHours() + hours);
+		newDate.setMinutes(newDate.getMinutes() + 1);
 		return newDate;
 	  }
 

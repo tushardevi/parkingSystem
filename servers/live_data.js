@@ -21,9 +21,12 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
 
 	ws.on('message', async function(data) {
 		//setInterval(async () =>{
+		try{
 		const dbName = "website.db"
 		const obj = await new Bookings(dbName)
 		const bookings = await obj.get_bookings()
+
+
 		connectedClients2.forEach((ws, i) => {
 			if (ws.readyState === ws.OPEN) { // check if it is still connected
 				try{
@@ -38,10 +41,14 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
 				
 				} 
 				else { // if it's not connected remove from the array of connected ws
-					connectedClients.splice(i, 1);
-					console.log("a client left, now clients connected:"+connectedClients.length)
+					connectedClients2.splice(i, 1);
+					console.log("a client left, now clients connected:"+connectedClients2.length)
 				}
 			})
+		}catch(err){
+			console.log("getting error in HUUULLLK")
+			console.log(err)
+		}
 
 			
 	})
