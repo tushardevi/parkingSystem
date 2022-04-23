@@ -68,7 +68,7 @@ router.post('/', async ctx => {
 		console.log(ctx.hbs)
 		await ctx.render('secure', ctx.hbs)
 	} finally {
-		expenses.close()
+		bookings.close()
 	}
 })
 

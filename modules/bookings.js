@@ -16,9 +16,9 @@ class Bookings {
 
 	/**
    * Create an booking object
-   * @param {String} [dbName=":memory:"] - The name of the database file to use.
+   * @param {String} [dbName] - The name of the database file to use.
    */
-	constructor(dbName = '../website.db:') {
+	constructor(dbName = '../website.db') {
 		return (async() => {
 			this.db = await sqlite.open(dbName)
 			// we need this table to store the expenses of all users
@@ -54,7 +54,8 @@ class Bookings {
 	// function to add the hours with current date time
 	 addHours(date, hours) {
 		let newDate = new Date(date);
-		newDate.setHours(newDate.getHours() + hours);
+	    newDate.setHours(newDate.getHours() + hours);
+		//newDate.setMinutes(newDate.getMinutes() + 10);
 		return newDate;
 	  }
 

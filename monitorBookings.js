@@ -1,13 +1,14 @@
 import sqlite from 'sqlite-async'
 import cron from 'node-cron'
-let counter = 0
-const dbName = "website.db"
 
+const dbName = "website.db"
+import Bookings from './modules/bookings.js'
 
 async function monitorBookings (){
     try{
-        counter = counter + 1
+        console.log("checking .....")
         const db = await sqlite.open(dbName)
+       // const obj = await new Bookings
     //     // THIS IS THE CODE TO GET ALL ABOUT TO EXPIRE BOOKINGS IN ORDER
         const sql2 = ' SELECT booking_id , end_dateTime FROM live_bookings ORDER BY end_dateTime ASC;'
         const dt = await db.all(sql2)
@@ -20,15 +21,19 @@ async function monitorBookings (){
         let expiry_date = dt[0].end_dateTime
 
         console.log(dt[0])
-        console.log("minute :"+ counter)
-        if(c < expiry_date){
+       
+        if(c > expiry_date){
             console.log("ABOUT TO DELETE FOLLOWING DATE ")
             const sql3 = `DELETE FROM live_bookings WHERE booking_id = "${dt[0].booking_id}"`
             await db.run(sql3)
+            
             //console.log(dt[0].end_dateTime)
             //console.log(c)
 
         }
+
+      
+
     }catch(err){
         console.log("ERROR")
         console.log(err.message)
