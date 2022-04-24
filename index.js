@@ -14,7 +14,7 @@ live_data_wss
 
 // start schedule function to check for expired bookings
 const monitorbookings = new monitorBookings()
-let a = await monitorbookings.monitor()
+//let a = await monitorbookings.monitor()
 cron.schedule('*/2 * * * * *', async ()=>{
 	monitorbookings.monitor()
 })

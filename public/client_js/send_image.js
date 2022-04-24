@@ -50,6 +50,59 @@ if (hasGetUserMedia()) {
         ws.onopen = function () {
             console.log('connected youu whuuu');
         }
+
+        ws.onmessage = function (evt) {
+            //     const a = URL.createObjectURL(evt.data,'image/png')
+            //    //console.log(a)
+            //     const array = a.split('/')
+            //     console.log(array)
+            //     const bl = array[0].split(':')
+            //     const res = bl[0]+array[3]
+                let data = evt.data
+                const res= JSON.parse(data)
+                console.log("does the car have a valid ticket?")
+                console.log("output : " + res )
+                let button = document.getElementById("pic_btn")
+
+                button.style.display = 'none'
+                let msg = document.getElementById("msg")
+                if(res=="true"){
+                    msg.style.color = "green"
+                    msg.innerText = "Valid Booking"
+                }else{
+                    msg.style.color = "red"
+                    msg.innerText = "No Valid Booking"
+                }
+                
+                
+                setInterval(async()=>{
+                    button.style.display = 'block'
+                    msg.innerText = ""
+                } ,5000)
+
+                
+
+
+               
+                
+               // img.src = array[1]
+                // var reader = new FileReader()
+        
+                // reader.onloadend = function(){
+                //     var base64 = reader.result
+                //     img.src= base64;
+                // }
+                // reader.readAsDataURL(evt.data)
+                
+        
+                // if (evt.data != null) {
+                //     console.log("data incoming...")
+                //     console.log(evt.data)
+                    
+                //    // img.src= base64;
+                  
+                // }
+            }
         
         ws.onclose = function () {
             console.log('closed');
@@ -76,17 +129,20 @@ if (hasGetUserMedia()) {
     //draw(video, backcontext, cw, ch);
     let button = document.getElementById("pic_btn")
     button.addEventListener('click',function(){
+        
         draw(video, backcontext, cw, ch);
-
-
+    
+        
     },false)
+    
+   
 
     function draw(v, bc, w, h) {
         bc.drawImage(v, 0, 0, w, h);
         
         var stringData = back.toDataURL();
-        console.log("sending this stinrg:")
-        console.log(stringData)
+        console.log("sending image to server:")
+       // console.log(stringData)
         send(stringData);
         
        // setTimeout(function() { draw(v, bc, w, h) });

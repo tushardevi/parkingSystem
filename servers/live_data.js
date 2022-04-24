@@ -45,8 +45,9 @@ const wss2 = new WebSocketServer({ port: WS_PORT_2 }, () => console.log(`WS serv
 					console.log("a client left, now clients connected:"+connectedClients2.length)
 				}
 			})
+			
 		}catch(err){
-			console.log("getting error in HUUULLLK")
+			console.log("getting error in live_data websocket server")
 			console.log(err)
 		}
 

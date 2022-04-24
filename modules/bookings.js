@@ -54,8 +54,8 @@ class Bookings {
 	// function to add the hours with current date time
 	 addHours(date, hours) {
 		let newDate = new Date(date);
-	    //newDate.setHours(newDate.getHours() + hours);
-		newDate.setMinutes(newDate.getMinutes() + 1);
+	    newDate.setHours(newDate.getHours() + hours);
+		//newDate.setMinutes(newDate.getMinutes() + 1);
 		return newDate;
 	  }
 
@@ -135,6 +135,25 @@ class Bookings {
 		}
 		return true
 
+	}
+	
+	// fucntion to validate car registration plate
+	async validate_regPlate(carRegu){
+
+		// check if the car reg exists in the live_bookings table
+		let sql = `SELECT count(carReg) AS count FROM live_bookings WHERE carReg="${carRegu}";`
+		const records = await this.db.get(sql)
+		
+		// if exists then return true otherwise false
+		if(!records.count){
+			console.log("booking is invalid")
+			return false
+		}else{
+			console.log("booking is valid")
+			return true
+		}
+
+	
 	}
 
 	
