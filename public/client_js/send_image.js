@@ -66,7 +66,7 @@ if (hasGetUserMedia()) {
 
                 button.style.display = 'none'
                 let msg = document.getElementById("msg")
-                if(res=="true"){
+                if(res==false){
                     msg.style.color = "green"
                     msg.innerText = "Valid Booking"
                 }else{

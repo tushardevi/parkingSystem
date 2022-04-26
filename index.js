@@ -18,3 +18,8 @@ const monitorbookings = new monitorBookings()
 cron.schedule('*/2 * * * * *', async ()=>{
 	monitorbookings.monitor()
 })
+
+//start schedule function to send emails to users 15 minutes before their booking expires
+cron.schedule('*/2 * * * * *', async ()=>{
+	monitorbookings.send_alert_notification()
+})

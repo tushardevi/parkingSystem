@@ -76,6 +76,69 @@ class Email {
 			}
 		})
 	}
+
+	// a function to send an alert notification to the user when their boking is about to expire
+	//same functionality as the sendEmail
+	async send_alert_email(receiver,booking) {
+
+		// build a transporter using the gmail smtp
+		const transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: 'javascript3211@gmail.com',
+				pass: 'Javascript'
+			}
+
+		})
+		const html = `<body>
+		<h1 style = "color: red;"> This is a remainder of your booking which is about to expire.</h1>
+		<p> The following is some details related to your booking</p>
+        <section>
+            <h2>Starting Time:</h2>
+             
+<p style = "font-size: 22px;">${booking.start_dateTime}</p>
+ 
+        </section>
+
+        <section>
+            <h2>Ending Time:</h2>
+             
+<p style = "font-size: 22px;">${booking.end_dateTime}</p>
+ 
+        </section>
+        <section>
+            <h2>Registration Plate:</h2>
+        
+<p style = "font-size: 22px;">${booking.carReg}</p>
+        </section>
+    </body>`
+	
+		const mailOtions = {
+			from: 'javascript3211@gmail.com',
+			to: receiver,
+			subject: 'Booking about to expire...',
+			html: html
+		}
+
+		transporter.sendMail(mailOtions, async(err,data) => {
+			if(err) {
+				console.log('Error email not sent : ',err)
+			}else{
+				console.log(`Email Succesfully sent to ${receiver}`)
+				true
+			}
+		})
+	}
+
+
+
+
+
+
+
+
+
+
 }
 
 export default Email

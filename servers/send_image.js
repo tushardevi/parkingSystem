@@ -33,7 +33,7 @@ wss.on('connection', async function(ws) {
             const bookings = await new Bookings(dbName)
             console.log("Extracting number plate.... ")
             console.log("number plate is : FW12 GMF ")
-            const res = await bookings.validate_regPlate(regPlate) // send reg plate to procedure
+            const res = await bookings.validate_regPlate("FW12GMF") // send reg plate to procedure
        
 
             connectedClients.forEach((ws, i) => {
