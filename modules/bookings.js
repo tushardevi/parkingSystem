@@ -54,8 +54,8 @@ class Bookings {
 	// function to add the hours with current date time
 	 addHours(date, hours) {
 		let newDate = new Date(date);
-	    //newDate.setHours(newDate.getHours() + hours);
-		newDate.setMinutes(newDate.getMinutes() + 2);
+	    newDate.setHours(newDate.getHours() + hours);
+		//newDate.setMinutes(newDate.getMinutes() + 2);
 		return newDate;
 	  }
 

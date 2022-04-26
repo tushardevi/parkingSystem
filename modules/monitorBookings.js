@@ -116,13 +116,13 @@ class monitorBookings{
                 // check if the hours are equal in value
             // if true then calculate the diff between expirty_mins and curren_mins 
             //check if it falls between 0 and 15.
-            console.log("entering with bookingid : " + dt[i].booking_id)
-            console.log("the ARRAY")
-            console.log(this.array_sent_email)
-            console.log((expiry_date_obj.getTime() - current_date.getTime())/60000)
+            //console.log("entering with bookingid : " + dt[i].booking_id)
+            //console.log("the ARRAY")
+           // console.log(this.array_sent_email)
+          //  console.log((expiry_date_obj.getTime() - current_date.getTime())/60000)
             const diff = Math.abs((current_date.getTime() - expiry_date_obj.getTime())/60000)
 
-                if(diff > 0 && diff < 1){
+                if(diff > 0 && diff < 15){
                     // check if the booking_id exists in the array, if yes, the emails has already been sent do not send again
                     if(this.array_sent_email.includes(dt[i].booking_id)){
                     continue
